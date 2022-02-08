@@ -1,6 +1,7 @@
 package managers;
 
 import model.Epic;
+import model.IdGenerator;
 import model.SubTask;
 import model.Task;
 
@@ -10,20 +11,12 @@ import static model.Status.NEW;
 
 public class InMemoryTaskManager implements TaskManager {
 
-    private HashMap<Integer, Task> tasks = new HashMap <>();
-    private int generatorTaskId = 10;
-
-    /* Да, id имеют странный вид, но если обнулять тут, то возникает конфликт id
-    и история формируется неправильно. В будущем надо будет реализовать единый IdGenerator
-    */
-
-    private HashMap<Integer, Epic> epics = new HashMap<>();
-    private int generatorEpicId = 20;
-
-    private HashMap<Integer, SubTask> subTasks = new HashMap<>();
-    private int generatorSubTaskId = 30;
+    private final HashMap<Integer, Task> tasks = new HashMap <>();
+    private final HashMap<Integer, Epic> epics = new HashMap<>();
+    private final HashMap<Integer, SubTask> subTasks = new HashMap<>();
 
     HistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
+    IdGenerator idGenerator = new IdGenerator();
 
     //	ПОЛУЧЕНИЕ списка всех задач.
     @Override
@@ -77,7 +70,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task createTask(Task task) {
-        int id = ++generatorTaskId;
+        int id = idGenerator.generateId();
         final Task value = new Task(task.getTaskName(), task.getTaskDescription(), id, NEW);
         if (tasks.containsKey(task.getId())) {
             System.out.println("Такая задача существует id = " + task.getId());
@@ -89,7 +82,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Epic createEpic(Epic epic) {
-        int id = ++generatorEpicId;
+        int id = idGenerator.generateId();
         Epic epicNew = new Epic(epic.getTaskName(), epic.getTaskDescription(), id, NEW);
         epics.put(id, epicNew);
         return epicNew;
@@ -102,7 +95,7 @@ public class InMemoryTaskManager implements TaskManager {
             System.out.println("Не найден эпик id = " + epicId);
             return null;
         }
-        int id = ++generatorSubTaskId;
+        int id = idGenerator.generateId();;
         final SubTask subTaskNew = new SubTask(subTask.getTaskName(), subTask.getTaskDescription(), id, NEW, epicId);
         subTasks.put(id, subTaskNew);
         final Epic epic = epics.get(epicId);
@@ -113,7 +106,6 @@ public class InMemoryTaskManager implements TaskManager {
     //	Обновление задачи любого типа по идентификатору. Новая версия объекта передаётся в виде параметра.
     @Override
     public void updateTask(Task taskUpdated) {
-
         final Task taskSaved = tasks.get(taskUpdated.getId());
         if (taskSaved == null) {
             // Ошибка
@@ -137,7 +129,6 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateSubTask(SubTask SubTaskUpdated) {
-        
         final SubTask SubTaskSaved = subTasks.get(SubTaskUpdated.getId());
         if (SubTaskSaved == null) {
             // Ошибка
@@ -171,11 +162,6 @@ public class InMemoryTaskManager implements TaskManager {
         System.out.println("Подзадача id " + id + " удалена");
     }
 
-    /*
-    Знаю, что это непонятный дикий костыль, но оказалось, что при удалении эпика его сабтаски не удаляются.
-    Два дня я думал как их удалить, в итоге дошел до такого. Наверное, все на самом деле проще в миллион раз.
-    Зато все сам)
-    */
     public Set<Integer> keyFinder(Integer id) {
         Epic epic = epics.get(id);
         Integer key = 0;
@@ -225,18 +211,11 @@ public class InMemoryTaskManager implements TaskManager {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         InMemoryTaskManager that = (InMemoryTaskManager) o;
-        return generatorTaskId == that.generatorTaskId
-                && generatorEpicId ==
-                that.generatorEpicId
-                && generatorSubTaskId == that.generatorSubTaskId
-                && Objects.equals(tasks, that.tasks)
-                && Objects.equals(epics, that.epics)
-                && Objects.equals(subTasks, that.subTasks)
-                && Objects.equals(inMemoryHistoryManager, that.inMemoryHistoryManager);
+        return Objects.equals(idGenerator, that.idGenerator);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tasks, generatorTaskId, epics, generatorEpicId, subTasks, generatorSubTaskId, inMemoryHistoryManager);
+        return Objects.hash(idGenerator);
     }
 }

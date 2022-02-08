@@ -18,8 +18,8 @@ public class Main {
 
         //1. СОЗДАНИЕ ЗАДАЧ
 
-        Task task = new Task("Task1name", "Поблагодарить ревьюера");
-        Task task2 = new Task("Task2name", "Показать костыли");
+        Task task = new Task("Task1name", "Task1description");
+        Task task2 = new Task("Task2name", "Task2description");
 
         final Task taskNew = taskManager.createTask(task);
         final Task task2New = taskManager.createTask(task2);
