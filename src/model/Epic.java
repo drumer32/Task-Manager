@@ -1,13 +1,16 @@
 package model;
 
+import support.Status;
+import support.TaskType;
+
 import java.util.HashMap;
 
 public class Epic extends Task {
 
     HashMap<Integer, SubTask> subtasks = new HashMap<>();
 
-    public Epic(String taskName, String taskDescription, Integer id, Status status) {
-        super(taskName, taskDescription, id, status);
+    public Epic(TaskType type, String taskName, String taskDescription, Integer id, Status status) {
+        super(type, taskName, taskDescription, id, status);
     }
 
     public Epic(String taskName, String taskDescription) {

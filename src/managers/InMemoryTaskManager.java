@@ -1,13 +1,13 @@
 package managers;
 
 import model.Epic;
-import model.IdGenerator;
+import support.IdGenerator;
 import model.SubTask;
 import model.Task;
 
 import java.util.*;
 
-import static model.Status.NEW;
+import static support.Status.NEW;
 
 public class InMemoryTaskManager implements TaskManager {
 
@@ -71,7 +71,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Task createTask(Task task) {
         int id = idGenerator.generateId();
-        final Task value = new Task(task.getTaskName(), task.getTaskDescription(), id, NEW);
+        final Task value = new Task(task.getType(), task.getTaskName(), task.getTaskDescription(), id, NEW);
         if (tasks.containsKey(task.getId())) {
             System.out.println("Такая задача существует id = " + task.getId());
             return null;
@@ -83,7 +83,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Epic createEpic(Epic epic) {
         int id = idGenerator.generateId();
-        Epic epicNew = new Epic(epic.getTaskName(), epic.getTaskDescription(), id, NEW);
+        Epic epicNew = new Epic(epic.getType(), epic.getTaskName(), epic.getTaskDescription(), id, NEW);
         epics.put(id, epicNew);
         return epicNew;
     }
@@ -96,7 +96,8 @@ public class InMemoryTaskManager implements TaskManager {
             return null;
         }
         int id = idGenerator.generateId();;
-        final SubTask subTaskNew = new SubTask(subTask.getTaskName(), subTask.getTaskDescription(), id, NEW, epicId);
+        final SubTask subTaskNew = new SubTask(subTask.getType(), subTask.getTaskName(),
+                subTask.getTaskDescription(), id, NEW, epicId);
         subTasks.put(id, subTaskNew);
         final Epic epic = epics.get(epicId);
         epic.addSubTask(subTask);

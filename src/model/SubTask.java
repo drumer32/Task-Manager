@@ -1,5 +1,8 @@
 package model;
 
+import support.Status;
+import support.TaskType;
+
 public class SubTask extends Task {
     Integer epicId;
 
@@ -7,8 +10,8 @@ public class SubTask extends Task {
         this.epicId = epicId;
     }
 
-    public SubTask(String name, String description, Integer id, Status status, Integer epicId) {
-        super(name, description, id, status);
+    public SubTask(TaskType type, String name, String description, Integer id, Status status, Integer epicId) {
+        super(type, name, description, id, status);
         this.epicId = epicId;
     }
     public SubTask(String name, String description, Integer epicId) {

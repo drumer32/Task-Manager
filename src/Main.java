@@ -5,11 +5,12 @@ import model.SubTask;
 import model.Task;
 
 /**
- 1. Создайте две задачи, эпик с тремя подзадачами и эпик без подзадач;
- 2. Запросите созданные задачи несколько раз в разном порядке;
- 3. После каждого запроса выведите историю и убедитесь, что в ней нет повторов;
- 4. Удалите задачу, которая есть в истории, и проверьте, что при печати она не будет выводиться;
- 5. Удалите эпик с тремя подзадачами и убедитесь, что из истории удалился как сам эпик, так и все его подзадачи.
+ * TODO
+ * Создать файл, который хранит список созданных и просмотренных объектов
+ * Автосохранение (Override) TaskManagerBackup после каждого действия
+ * История просмотров в файле хранит только ID задачи
+ * Восстановление созданных задач и истории просмотров из файла
+ *
  */
 
 public class Main {
@@ -53,7 +54,7 @@ public class Main {
         final Integer subtask3Id = subTask3New.getId();
 
         //НАЧАЛО ВЫВОДА
-        System.out.println(taskNew.getTaskName() + " " + taskNew.getTaskDescription() +
+        System.out.println(taskNew.getType() + " " + taskNew.getTaskName() + " " + taskNew.getTaskDescription() +
                 " id: " + taskNew.getId());
         System.out.println(task2New.getTaskName() + " " + task2New.getTaskDescription() +
                 " id: " + task2New.getId());
