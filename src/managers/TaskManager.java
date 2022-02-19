@@ -8,7 +8,7 @@ import java.util.Map;
 
 public interface TaskManager {
 
-    List<Task> getAll();
+    List<Task> getAllTasks();
 
     List<Task> getAllEpic();
 

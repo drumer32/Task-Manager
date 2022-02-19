@@ -13,6 +13,7 @@ public class Task {
     protected Status status;
     protected TaskType type;
 
+
     public Task() {
     }
 
@@ -52,6 +53,13 @@ public class Task {
         this.type = TASK;
     }
 
+    public Task(String taskName, String taskDescription, Integer id, Status status) {
+        this.taskName = taskName;
+        this.taskDescription = taskDescription;
+        this.id = id;
+        this.status = status;
+    }
+
     public String getTaskName() {
         return taskName;
     }
@@ -89,11 +97,25 @@ public class Task {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return id.equals(task.id);
+        return Objects.equals(taskName, task.taskName)
+                && Objects.equals(taskDescription, task.taskDescription)
+                && Objects.equals(id, task.id)
+                && status == task.status
+                && type == task.type;
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(taskName, taskDescription, id, status);
+    }
+
+    @Override
+    public String toString() {
+        return id + "," +
+                type + "," +
+                taskName + "," +
+                status + "," +
+                taskDescription
+                ;
     }
 }

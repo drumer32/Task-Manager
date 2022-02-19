@@ -8,19 +8,21 @@ import model.Task;
 import java.util.*;
 
 import static support.Status.NEW;
+import static support.TaskType.*;
 
 public class InMemoryTaskManager implements TaskManager {
 
-    private final HashMap<Integer, Task> tasks = new HashMap <>();
-    private final HashMap<Integer, Epic> epics = new HashMap<>();
-    private final HashMap<Integer, SubTask> subTasks = new HashMap<>();
+    HashMap<Integer, Task> tasks = new HashMap <>();
+    HashMap<Integer, Epic> epics = new HashMap<>();
+    HashMap<Integer, SubTask> subTasks = new HashMap<>();
 
     HistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
     IdGenerator idGenerator = new IdGenerator();
 
+
     //	ПОЛУЧЕНИЕ списка всех задач.
     @Override
-    public List<Task> getAll() {
+    public List<Task> getAllTasks() {
         return new ArrayList<>(tasks.values());
     }
 
@@ -71,7 +73,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Task createTask(Task task) {
         int id = idGenerator.generateId();
-        final Task value = new Task(task.getType(), task.getTaskName(), task.getTaskDescription(), id, NEW);
+        final Task value = new Task(TASK, task.getTaskName(), task.getTaskDescription(), id, NEW);
         if (tasks.containsKey(task.getId())) {
             System.out.println("Такая задача существует id = " + task.getId());
             return null;
@@ -83,26 +85,25 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Epic createEpic(Epic epic) {
         int id = idGenerator.generateId();
-        Epic epicNew = new Epic(epic.getType(), epic.getTaskName(), epic.getTaskDescription(), id, NEW);
+        Epic epicNew = new Epic(EPIC, epic.getTaskName(), epic.getTaskDescription(), id, NEW);
         epics.put(id, epicNew);
         return epicNew;
     }
 
     @Override
     public SubTask createSubTask(SubTask subTask) {
-        int epicId = subTask.getEpicId();
-        if (!epics.containsKey(epicId)) {
-            System.out.println("Не найден эпик id = " + epicId);
+        if (!epics.containsKey(subTask.getEpicId())) {
+            System.out.println("Не найден эпик id = " + subTask.getEpicId());
             return null;
         }
         int id = idGenerator.generateId();;
-        final SubTask subTaskNew = new SubTask(subTask.getType(), subTask.getTaskName(),
-                subTask.getTaskDescription(), id, NEW, epicId);
+        final SubTask subTaskNew = new SubTask(SUBTASK, subTask.getTaskName(),
+                subTask.getTaskDescription(), id, NEW, subTask.getEpicId());
         subTasks.put(id, subTaskNew);
-        final Epic epic = epics.get(epicId);
+        final Epic epic = epics.get(subTask.getEpicId());
         epic.addSubTask(subTask);
         return subTaskNew;
-        }
+    }
 
     //	Обновление задачи любого типа по идентификатору. Новая версия объекта передаётся в виде параметра.
     @Override

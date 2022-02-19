@@ -1,23 +1,58 @@
 package managers;
 
-import model.Epic;
-import model.SubTask;
-import model.Task;
-import support.TaskType;
+import model.*;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import static support.Status.NEW;
+import static support.TaskType.*;
+
 public class FileBackedTaskManager extends InMemoryTaskManager {
 
-    private void save() {
-        System.out.println("hello");
+    String filename;
+
+    public FileBackedTaskManager(String filename) {
+        this.filename = filename;
     }
 
+    public void save() {
+
+        StringBuilder taskSaved = new StringBuilder();
+
+        for (Task a : tasks.values()) {
+            taskSaved.append(a.toString());
+            taskSaved.append("\n");
+        }
+        for (Task a : subTasks.values()) {
+            taskSaved.append(a.toString());
+            taskSaved.append("\n");
+        }
+        for (Task a : epics.values()) {
+            taskSaved.append(a.toString());
+            taskSaved.append("\n");
+        }
+        taskSaved.append("\n");
+        for (Task a : history()) {
+            taskSaved.append(a.getId().toString());
+            taskSaved.append(",");
+        }
+
+        try (FileWriter writer = new FileWriter(filename)) {
+            writer.write(String.valueOf(taskSaved));//перезапись файла
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+
     @Override
-    public List<Task> getAll() {
-        return super.getAll();
+    public List<Task> getAllTasks() {
+        return super.getAllTasks();
     }
 
     @Override
@@ -42,57 +77,79 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     @Override
     public Task findById(Integer id) {
+        final Task task = tasks.get(id);
+        inMemoryHistoryManager.add(task);
         save();
-        return super.findById(id);
+        return task;
     }
 
     @Override
     public SubTask findSubTaskById(Integer id) {
+        final SubTask subTask = subTasks.get(id);
+        inMemoryHistoryManager.add(subTask);
         save();
-        return super.findSubTaskById(id);
+        return subTask;
     }
 
     @Override
     public Epic findEpicById(Integer id) {
+        final Epic epic = epics.get(id);
+        inMemoryHistoryManager.add(epic);
         save();
-        return super.findEpicById(id);
+        return epic;
     }
 
     @Override
     public Task createTask(Task task) {
+        int id = idGenerator.generateId();
+        final Task value = new Task(TASK, task.getTaskName(), task.getTaskDescription(), id, NEW);
+        if (tasks.containsKey(task.getId())) {
+            System.out.println("Такая задача существует id = " + task.getId());
+            return null;
+        }
+        tasks.put(id, value);
         save();
-        return super.createTask(task);
-
+        return value;
     }
 
     @Override
     public Epic createEpic(Epic epic) {
+        int id = idGenerator.generateId();
+        Epic epicNew = new Epic(EPIC, epic.getTaskName(), epic.getTaskDescription(), id, NEW);
+        epics.put(id, epicNew);
         save();
-        return super.createEpic(epic);
+        return epicNew;
     }
 
     @Override
     public SubTask createSubTask(SubTask subTask) {
+        if (!epics.containsKey(subTask.getEpicId())) {
+            System.out.println("Не найден эпик id = " + subTask.getEpicId());
+            return null;
+        }
+        int id = idGenerator.generateId();;
+        final SubTask subTaskNew = new SubTask(SUBTASK, subTask.getTaskName(),
+                subTask.getTaskDescription(), id, NEW, subTask.getEpicId());
+        subTasks.put(id, subTaskNew);
+        final Epic epic = epics.get(subTask.getEpicId());
+        epic.addSubTask(subTask);
         save();
-        return super.createSubTask(subTask);
+        return subTaskNew;
     }
 
     @Override
     public void updateTask(Task taskUpdated) {
         super.updateTask(taskUpdated);
-        save();
     }
 
     @Override
     public void updateEpic(Epic epicUpdated) {
         super.updateEpic(epicUpdated);
-        save();
     }
 
     @Override
     public void updateSubTask(SubTask SubTaskUpdated) {
         super.updateSubTask(SubTaskUpdated);
-        save();
     }
 
     @Override
@@ -120,7 +177,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     @Override
     public List<Task> history() {
-        return super.history();
+        return inMemoryHistoryManager.getHistory();
     }
 
     @Override

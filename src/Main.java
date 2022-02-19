@@ -1,3 +1,4 @@
+import managers.FileBackedTaskManager;
 import managers.Managers;
 import managers.TaskManager;
 import model.Epic;
@@ -56,17 +57,17 @@ public class Main {
         //НАЧАЛО ВЫВОДА
         System.out.println(taskNew.getType() + " " + taskNew.getTaskName() + " " + taskNew.getTaskDescription() +
                 " id: " + taskNew.getId());
-        System.out.println(task2New.getTaskName() + " " + task2New.getTaskDescription() +
+        System.out.println(task2New.getType() + " " + task2New.getTaskName() + " " + task2New.getTaskDescription() +
                 " id: " + task2New.getId());
         System.out.println("");
-        System.out.println(epic1new.getTaskName() + " " + epic1new.getTaskDescription() +
+        System.out.println(epic1new.getType() + " " + epic1new.getTaskName() + " " + epic1new.getTaskDescription() +
                 " id: " + epic1new.getId());
-        System.out.println(subTaskNew.getTaskName() + " " + subTaskNew.getTaskDescription() +
+        System.out.println(subTaskNew.getType() + " " + subTaskNew.getTaskName() + " " + subTaskNew.getTaskDescription() +
                 " id: " + subTaskNew.getId());
         System.out.println(subTask2New.getTaskName() + " " + subTask2New.getTaskDescription() +
                 " id: " + subTask2New.getId());
         System.out.println(subTask3New.getTaskName() + " " + subTask3New.getTaskDescription() +
-                " id: " + subTask3New.getId());
+                " id: " + subTask3New.getId() + " " + subTask3New.getEpicId());
         System.out.println("");
         System.out.println(epic2new.getTaskName() + " " + epic2new.getTaskDescription() +
                 " id: " + epic2new.getId());

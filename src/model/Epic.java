@@ -10,7 +10,8 @@ public class Epic extends Task {
     HashMap<Integer, SubTask> subtasks = new HashMap<>();
 
     public Epic(TaskType type, String taskName, String taskDescription, Integer id, Status status) {
-        super(type, taskName, taskDescription, id, status);
+        super(taskName, taskDescription, id, status);
+        this.type = type;
     }
 
     public Epic(String taskName, String taskDescription) {
@@ -29,6 +30,15 @@ public class Epic extends Task {
     public void addSubTask(SubTask subTask) {
         Integer epicId = subTask.getEpicId();
         subtasks.put(epicId, subTask);
+    }
+
+    @Override
+    public TaskType getType() {
+        return type;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public HashMap<Integer, SubTask> getSubTasks() {
