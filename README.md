@@ -1,5 +1,5 @@
 # java-sprint5-hw
-##Task manager
+Task manager
 
 Программа TaskManager. 
 Имеет три вида задач: Task, Subtask и Epic.
