@@ -1,7 +1,18 @@
 package model;
+import managers.FileBackedTaskManager;
 import support.Status;
 import support.TaskType;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import static support.Status.NEW;
 import static support.TaskType.TASK;
@@ -17,11 +28,11 @@ public class Task {
     public Task() {
     }
 
-    public Task(String taskName, Integer id) {
-        this(TASK, taskName, "", id, NEW);
+    public Task(Integer id, String taskName) {
+        this(id,TASK, taskName, NEW, "");
     }
 
-    public Task(String taskName, String taskDescription, Integer id) {
+    public Task(Integer id, String taskName, String taskDescription) {
         this.taskName = taskName;
         this.taskDescription = taskDescription;
         this.id = id;
@@ -37,7 +48,8 @@ public class Task {
         this.type = TASK;
     }
 
-    public Task(TaskType type, String taskName, String taskDescription, Integer id, Status status) {
+
+    public Task(Integer id, TaskType type, String taskName, Status status, String taskDescription) {
         this.type = TASK;
         this.taskName = taskName;
         this.taskDescription = taskDescription;
@@ -50,7 +62,7 @@ public class Task {
         this.taskDescription = task.taskDescription;
         this.id = task.id;
         this.status = task.status;
-        this.type = TASK;
+        this.type = task.type;
     }
 
     public Task(String taskName, String taskDescription, Integer id, Status status) {
@@ -118,4 +130,6 @@ public class Task {
                 taskDescription
                 ;
     }
+
+
 }

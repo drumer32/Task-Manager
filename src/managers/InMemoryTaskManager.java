@@ -12,9 +12,9 @@ import static support.TaskType.*;
 
 public class InMemoryTaskManager implements TaskManager {
 
-    HashMap<Integer, Task> tasks = new HashMap <>();
-    HashMap<Integer, Epic> epics = new HashMap<>();
-    HashMap<Integer, SubTask> subTasks = new HashMap<>();
+    protected static HashMap<Integer, Task> tasks = new HashMap <>();
+    protected static HashMap<Integer, Epic> epics = new HashMap<>();
+    protected static HashMap<Integer, SubTask> subTasks = new HashMap<>();
 
     HistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
     IdGenerator idGenerator = new IdGenerator();
@@ -73,7 +73,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Task createTask(Task task) {
         int id = idGenerator.generateId();
-        final Task value = new Task(TASK, task.getTaskName(), task.getTaskDescription(), id, NEW);
+        final Task value = new Task(id,TASK, task.getTaskName(),  NEW, task.getTaskDescription());
         if (tasks.containsKey(task.getId())) {
             System.out.println("Такая задача существует id = " + task.getId());
             return null;
@@ -85,7 +85,11 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Epic createEpic(Epic epic) {
         int id = idGenerator.generateId();
-        Epic epicNew = new Epic(EPIC, epic.getTaskName(), epic.getTaskDescription(), id, NEW);
+        final Epic epicNew = new Epic(id, EPIC, epic.getTaskName(), NEW, epic.getTaskDescription());
+        if (epics.containsKey(epic.getId())) {
+            System.out.println("Такая задача существует id = " + epic.getId());
+            return null;
+        }
         epics.put(id, epicNew);
         return epicNew;
     }
@@ -97,8 +101,8 @@ public class InMemoryTaskManager implements TaskManager {
             return null;
         }
         int id = idGenerator.generateId();;
-        final SubTask subTaskNew = new SubTask(SUBTASK, subTask.getTaskName(),
-                subTask.getTaskDescription(), id, NEW, subTask.getEpicId());
+        final SubTask subTaskNew = new SubTask(id, SUBTASK, subTask.getTaskName(),  NEW,
+                subTask.getTaskDescription(), subTask.getEpicId());
         subTasks.put(id, subTaskNew);
         final Epic epic = epics.get(subTask.getEpicId());
         epic.addSubTask(subTask);

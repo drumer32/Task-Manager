@@ -5,6 +5,8 @@ import model.Epic;
 import model.SubTask;
 import model.Task;
 
+import static support.Status.DONE;
+
 /**
  * TODO
  * Создать файл, который хранит список созданных и просмотренных объектов

@@ -1,21 +1,32 @@
 package model;
 
+import managers.FileBackedTaskManager;
 import support.Status;
 import support.TaskType;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Epic extends Task {
 
     HashMap<Integer, SubTask> subtasks = new HashMap<>();
 
-    public Epic(TaskType type, String taskName, String taskDescription, Integer id, Status status) {
+    public Epic(Integer id, TaskType type, String taskName, Status status, String taskDescription) {
         super(taskName, taskDescription, id, status);
         this.type = type;
     }
 
     public Epic(String taskName, String taskDescription) {
-        super(taskName, taskDescription, null);
+        super(null, taskDescription, taskName);
+    }
+
+    public Epic(Task task, HashMap<Integer, SubTask> subtasks) {
+        super(task);
+        this.subtasks = subtasks;
     }
 
     @Override
@@ -61,5 +72,12 @@ public class Epic extends Task {
     public int hashCode() {
         return id.hashCode();
     }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
+
+
 }
 

@@ -1,7 +1,17 @@
 package model;
 
+import managers.FileBackedTaskManager;
 import support.Status;
 import support.TaskType;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static support.Status.NEW;
+import static support.TaskType.SUBTASK;
 
 public class SubTask extends Task {
     Integer epicId;
@@ -10,13 +20,18 @@ public class SubTask extends Task {
         this.epicId = epicId;
     }
 
-    public SubTask(TaskType type, String name, String description, Integer id, Status status, Integer epicId) {
+    public SubTask(Integer id, TaskType type, String name, Status status, String description, Integer epicId) {
         super(name, description, id, status);
         this.type = type;
         this.epicId = epicId;
     }
     public SubTask(String name, String description, Integer epicId) {
-        super(name, description, null);
+        super(null, name, description);
+        this.epicId = epicId;
+    }
+
+    public SubTask(Task task, Integer epicId) {
+        super(task);
         this.epicId = epicId;
     }
 
@@ -45,4 +60,12 @@ public class SubTask extends Task {
     public int hashCode() {
         return epicId.hashCode();
     }
+
+    @Override
+    public String toString() {
+        return super.toString()
+                +","+ epicId
+                ;
+    }
+
 }

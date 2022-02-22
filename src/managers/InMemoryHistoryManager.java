@@ -1,8 +1,13 @@
 package managers;
 import model.Task;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
 
-public class InMemoryHistoryManager implements HistoryManager{
+public class InMemoryHistoryManager implements HistoryManager {
 
     static class Node<E extends Task> {
         public E data;
@@ -16,7 +21,8 @@ public class InMemoryHistoryManager implements HistoryManager{
         }
     }
 
-    public InMemoryHistoryManager() {}
+    public InMemoryHistoryManager() {
+    }
 
     private Node<Task> head;
     private Node<Task> tail;
@@ -82,4 +88,5 @@ public class InMemoryHistoryManager implements HistoryManager{
         }
         return tasks;
     }
+
 }
