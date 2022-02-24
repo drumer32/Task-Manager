@@ -5,6 +5,7 @@ import support.IdGenerator;
 import model.SubTask;
 import model.Task;
 
+import java.io.IOException;
 import java.util.*;
 
 import static support.Status.NEW;
@@ -210,6 +211,12 @@ public class InMemoryTaskManager implements TaskManager {
         for (Task task : history()) {
             System.out.println(task.getTaskName());
         }
+    }
+
+    @Override
+    public void loadFromFile(String taskSavedBackup) throws IOException {
+        System.out.println("Функция недоступна для текущего менеджера. " +
+                "Запустите FileBackedTaskManager для сохранения истории.");
     }
 
     @Override

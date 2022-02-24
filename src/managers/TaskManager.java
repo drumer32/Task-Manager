@@ -3,6 +3,8 @@ package managers;
 import model.Epic;
 import model.SubTask;
 import model.Task;
+
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -45,4 +47,6 @@ public interface TaskManager {
     List<Task> history();
 
     void printHistory();
+
+    void loadFromFile(String taskSavedBackup) throws IOException;
 }

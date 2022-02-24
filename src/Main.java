@@ -5,6 +5,8 @@ import model.Epic;
 import model.SubTask;
 import model.Task;
 
+import java.io.IOException;
+
 import static support.Status.DONE;
 
 /**
@@ -17,8 +19,10 @@ import static support.Status.DONE;
  */
 
 public class Main {
+    private static final Integer IN_MEMORY = 1;
+
     public static void main(String[] args) {
-        final TaskManager taskManager = Managers.getDefault();
+        final TaskManager taskManager = Managers.getDefault(IN_MEMORY);
 
         //1. СОЗДАНИЕ ЗАДАЧ
 

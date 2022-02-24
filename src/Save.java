@@ -1,4 +1,5 @@
 import managers.FileBackedTaskManager;
+import managers.InMemoryTaskManager;
 import managers.Managers;
 import managers.TaskManager;
 import model.Epic;
@@ -11,9 +12,11 @@ import static support.Status.DONE;
 
 public class Save{
 
+    private static final Integer IN_FILE = 2;
+
     public static void main(String[] args) throws IOException {
 
-        FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager("TaskSavedBackup");
+        final TaskManager fileBackedTaskManager = Managers.getDefault(IN_FILE);
 
         fileBackedTaskManager.loadFromFile("TaskSavedBackup");
 
@@ -91,6 +94,7 @@ public class Save{
 //        System.out.println("");
 //        Task taskUpdated = new Task("Task1name", "Task1description", 1, DONE);
 //        fileBackedTaskManager.updateTask(taskUpdated);
+
         fileBackedTaskManager.printHistory();
         fileBackedTaskManager.getAllTasks();
         fileBackedTaskManager.getAllEpic();

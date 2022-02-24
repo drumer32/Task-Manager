@@ -62,7 +62,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
             }
             br.close();
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            throw new IOException("Ошибка чтения файла");
         }
         taskFromString(values);
         epicFromString(values);
