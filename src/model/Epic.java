@@ -21,7 +21,7 @@ public class Epic extends Task {
     }
 
     public Epic(String taskName, String taskDescription) {
-        super(null, taskDescription, taskName);
+        super(taskDescription, taskName);
     }
 
     public Epic(Task task, HashMap<Integer, SubTask> subtasks) {
@@ -55,6 +55,33 @@ public class Epic extends Task {
     public HashMap<Integer, SubTask> getSubTasks() {
         return subtasks;
     }
+//    public ArrayList<SubTask> getSubTasksNew() {
+//        ArrayList<SubTask> allNew = new ArrayList<>();
+//        for (SubTask subTask : subtasks.values()) {
+//            if (subTask.getStatus().equals(Status.NEW)) {
+//                System.out.println("true");
+//                allNew.add(subTask);
+//            } else {
+//                System.out.println("not true");
+//            }
+//        } return allNew;
+//    }
+//    public ArrayList<SubTask> getSubTasksInProgress() {
+//        ArrayList<SubTask> allInProgress = new ArrayList<>();
+//        for (SubTask subTask : subtasks.values()) {
+//            if (subTask.getStatus().equals(Status.IN_PROGRESS)) {;
+//                allInProgress.add(subTask);
+//            }
+//        } return allInProgress;
+//    }
+//    public ArrayList<SubTask> getSubTasksDone() {
+//        ArrayList<SubTask> allDone = new ArrayList<>();
+//        for (SubTask subTask : subtasks.values()) {
+//            if (subTask.getStatus().equals(Status.DONE)) {
+//                allDone.add(subTask);
+//            }
+//        } return allDone;
+//    }
 
     public void deleteSubTasks() {
         subtasks.clear();

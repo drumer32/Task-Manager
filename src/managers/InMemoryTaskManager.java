@@ -74,20 +74,22 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Task createTask(Task task) {
         int id = idGenerator.generateId();
-        final Task value = new Task(id,TASK, task.getTaskName(),  NEW, task.getTaskDescription());
-        if (tasks.containsKey(task.getId())) {
-            System.out.println("Такая задача существует id = " + task.getId());
+        final Task taskNew = new Task(id, TASK, task.getTaskName(), task.getStatus(),
+                task.getTaskDescription());
+        if (tasks.containsKey(taskNew.getId())) {
+            System.out.println("Такая задача существует id = " + taskNew.getId());
             return null;
         }
-        tasks.put(id, value);
-        return value;
+        tasks.put(id, taskNew);
+        return taskNew;
     }
 
     @Override
     public Epic createEpic(Epic epic) {
         int id = idGenerator.generateId();
-        final Epic epicNew = new Epic(id, EPIC, epic.getTaskName(), NEW, epic.getTaskDescription());
-        if (epics.containsKey(epic.getId())) {
+        final Epic epicNew = new Epic(id, EPIC, epic.getTaskName(), epic.getStatus(),
+                epic.getTaskDescription());
+        if (epics.containsKey(epicNew.getId())) {
             System.out.println("Такая задача существует id = " + epic.getId());
             return null;
         }
@@ -102,11 +104,11 @@ public class InMemoryTaskManager implements TaskManager {
             return null;
         }
         int id = idGenerator.generateId();;
-        final SubTask subTaskNew = new SubTask(id, SUBTASK, subTask.getTaskName(),  NEW,
+        final SubTask subTaskNew = new SubTask(id, SUBTASK, subTask.getTaskName(), subTask.getStatus(),
                 subTask.getTaskDescription(), subTask.getEpicId());
         subTasks.put(id, subTaskNew);
-        final Epic epic = epics.get(subTask.getEpicId());
-        epic.addSubTask(subTask);
+        final Epic epic = epics.get(subTaskNew.getEpicId());
+        epic.addSubTask(subTaskNew);
         return subTaskNew;
     }
 

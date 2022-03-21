@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static support.Status.NEW;
 import static support.TaskType.SUBTASK;
@@ -43,8 +44,13 @@ public class SubTask extends Task {
     public TaskType getType() {
         return type;
     }
+    @Override
     public Integer getId() {
         return id;
+    }
+    @Override
+    public Status getStatus() {
+        return status;
     }
 
     @Override
@@ -53,7 +59,7 @@ public class SubTask extends Task {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         SubTask subTask = (SubTask) o;
-        return epicId.equals(subTask.epicId);
+        return Objects.equals(epicId, subTask.epicId);
     }
 
     @Override
