@@ -44,13 +44,13 @@ public class Save{
 //
 //        //СОЗДАНИЕ САБТАСКОВ
 //
-//        SubTask subTask = new SubTask("SubTask1", "Subtask1description", epic1id);
-//        SubTask subTask2 = new SubTask("SubTask2", "Subtask2description", epic1id);
-//        SubTask subTask3 = new SubTask("SubTask3", "Subtask3description", epic1id);
+//        SubTask subTask = new SubTask("SubTask1", "Subtask1description");
+//        SubTask subTask2 = new SubTask("SubTask2", "Subtask2description");
+//        SubTask subTask3 = new SubTask("SubTask3", "Subtask3description");
 //
-//        final SubTask subTaskNew = fileBackedTaskManager.createSubTask(subTask);
-//        final SubTask subTask2New = fileBackedTaskManager.createSubTask(subTask2);
-//        final SubTask subTask3New = fileBackedTaskManager.createSubTask(subTask3);
+//        final SubTask subTaskNew = taskManager.createSubTask(subTask, epic1id);
+//        final SubTask subTask2New = taskManager.createSubTask(subTask2, epic1id);
+//        final SubTask subTask3New = taskManager.createSubTask(subTask3, epic1id);
 //
 //        final Integer subtask1Id = subTaskNew.getId();
 //        final Integer subtask2Id = subTask2New.getId();

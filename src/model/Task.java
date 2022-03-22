@@ -1,5 +1,6 @@
 package model;
 import managers.FileBackedTaskManager;
+import support.IdGenerator;
 import support.Status;
 import support.TaskType;
 
@@ -100,8 +101,15 @@ public class Task {
         return id;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public TaskType getType() {
         return type;
+    }
+    public void setType(TaskType type) {
+        this.type = type;
     }
 
     @Override
@@ -130,6 +138,4 @@ public class Task {
                 taskDescription
                 ;
     }
-
-
 }

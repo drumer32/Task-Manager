@@ -20,7 +20,6 @@ public class InMemoryTaskManager implements TaskManager {
     HistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
     IdGenerator idGenerator = new IdGenerator();
 
-
     //	ПОЛУЧЕНИЕ списка всех задач.
     @Override
     public List<Task> getAllTasks() {
@@ -73,22 +72,25 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task createTask(Task task) {
-        int id = idGenerator.generateId();
-        final Task taskNew = new Task(id, TASK, task.getTaskName(), task.getStatus(),
-                task.getTaskDescription());
-        if (tasks.containsKey(taskNew.getId())) {
-            System.out.println("Такая задача существует id = " + taskNew.getId());
+        Integer id = idGenerator.generateId();
+        task.setId(id);
+        task.setStatus(NEW);
+        task.setType(TASK);
+        System.out.println(id);
+        if (tasks.containsKey(task.getId())) {
+            System.out.println("Такая задача существует id = " + task.getId());
             return null;
         }
-        tasks.put(id, taskNew);
-        return taskNew;
+        tasks.put(id, task);
+        return task;
     }
 
     @Override
     public Epic createEpic(Epic epic) {
-        int id = idGenerator.generateId();
-        final Epic epicNew = new Epic(id, EPIC, epic.getTaskName(), epic.getStatus(),
+        Integer id = idGenerator.generateId();
+        final Epic epicNew = new Epic(id, EPIC, epic.getTaskName(), NEW,
                 epic.getTaskDescription());
+        System.out.println(id);
         if (epics.containsKey(epicNew.getId())) {
             System.out.println("Такая задача существует id = " + epic.getId());
             return null;
@@ -98,14 +100,15 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public SubTask createSubTask(SubTask subTask) {
-        if (!epics.containsKey(subTask.getEpicId())) {
-            System.out.println("Не найден эпик id = " + subTask.getEpicId());
+    public SubTask createSubTask(SubTask subTask, Integer epicId) {
+        if (!epics.containsKey(epicId)) {
+            System.out.println("Не найден эпик id = " + epicId);
             return null;
         }
         int id = idGenerator.generateId();;
-        final SubTask subTaskNew = new SubTask(id, SUBTASK, subTask.getTaskName(), subTask.getStatus(),
-                subTask.getTaskDescription(), subTask.getEpicId());
+        final SubTask subTaskNew = new SubTask(id, SUBTASK, subTask.getTaskName(), NEW,
+                subTask.getTaskDescription(), epicId);
+        System.out.println(id);
         subTasks.put(id, subTaskNew);
         final Epic epic = epics.get(subTaskNew.getEpicId());
         epic.addSubTask(subTaskNew);
@@ -117,7 +120,6 @@ public class InMemoryTaskManager implements TaskManager {
     public void updateTask(Task taskUpdated) {
         final Task taskSaved = tasks.get(taskUpdated.getId());
         if (taskSaved == null) {
-            // Ошибка
             return;
         }
         taskSaved.setTaskDescription(taskUpdated.getTaskDescription());
@@ -129,7 +131,6 @@ public class InMemoryTaskManager implements TaskManager {
     public void updateEpic(Epic epicUpdated) {
         final Epic epicSaved = epics.get(epicUpdated.getId());
         if (epicSaved == null) {
-            // Ошибка
             return;
         }
         epicUpdated.setTaskDescription(epicUpdated.getTaskDescription());
@@ -140,7 +141,6 @@ public class InMemoryTaskManager implements TaskManager {
     public void updateSubTask(SubTask SubTaskUpdated) {
         final SubTask SubTaskSaved = subTasks.get(SubTaskUpdated.getId());
         if (SubTaskSaved == null) {
-            // Ошибка
             return;
         }
         SubTaskSaved.setTaskDescription(SubTaskUpdated.getTaskDescription());
@@ -198,6 +198,13 @@ public class InMemoryTaskManager implements TaskManager {
         epics.remove(id);
         inMemoryHistoryManager.remove(id);
         System.out.println("Эпик id " + id + " удален");
+    }
+
+    @Override
+    public void clearAll() {
+        tasks.clear();
+        subTasks.clear();
+        epics.clear();
     }
 
     //Печать истории

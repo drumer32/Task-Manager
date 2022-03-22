@@ -26,9 +26,19 @@ public class SubTask extends Task {
         this.type = type;
         this.epicId = epicId;
     }
+
+    public SubTask(Integer id, TaskType type, String name, Status status, String description) {
+        super(name, description, id, status);
+        this.type = type;
+    }
+
     public SubTask(String name, String description, Integer epicId) {
-        super(null, name, description);
+        super(name, description);
         this.epicId = epicId;
+    }
+
+    public SubTask(String name, String description) {
+        super(name, description);
     }
 
     public SubTask(Task task, Integer epicId) {
@@ -44,13 +54,23 @@ public class SubTask extends Task {
     public TaskType getType() {
         return type;
     }
+    public void setType(TaskType type) {
+        this.type = type;
+    }
     @Override
     public Integer getId() {
         return id;
     }
     @Override
+    public void setId(Integer id) {
+        this.id = id;
+    }
+    @Override
     public Status getStatus() {
         return status;
+    }
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     @Override

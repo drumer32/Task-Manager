@@ -29,13 +29,12 @@ public class Epic extends Task {
         this.subtasks = subtasks;
     }
 
-    @Override
-    public void setStatus(Status status) {
-        super.setStatus(findStatus());
+    public Status getStatus() {
+        return status;
     }
 
-    private Status findStatus() {
-        return status;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public void addSubTask(SubTask subTask) {
@@ -47,41 +46,21 @@ public class Epic extends Task {
     public TaskType getType() {
         return type;
     }
-
+    public void setType(TaskType type) {
+        this.type = type;
+    }
+    @Override
     public Integer getId() {
         return id;
+    }
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public HashMap<Integer, SubTask> getSubTasks() {
         return subtasks;
     }
-//    public ArrayList<SubTask> getSubTasksNew() {
-//        ArrayList<SubTask> allNew = new ArrayList<>();
-//        for (SubTask subTask : subtasks.values()) {
-//            if (subTask.getStatus().equals(Status.NEW)) {
-//                System.out.println("true");
-//                allNew.add(subTask);
-//            } else {
-//                System.out.println("not true");
-//            }
-//        } return allNew;
-//    }
-//    public ArrayList<SubTask> getSubTasksInProgress() {
-//        ArrayList<SubTask> allInProgress = new ArrayList<>();
-//        for (SubTask subTask : subtasks.values()) {
-//            if (subTask.getStatus().equals(Status.IN_PROGRESS)) {;
-//                allInProgress.add(subTask);
-//            }
-//        } return allInProgress;
-//    }
-//    public ArrayList<SubTask> getSubTasksDone() {
-//        ArrayList<SubTask> allDone = new ArrayList<>();
-//        for (SubTask subTask : subtasks.values()) {
-//            if (subTask.getStatus().equals(Status.DONE)) {
-//                allDone.add(subTask);
-//            }
-//        } return allDone;
-//    }
 
     public void deleteSubTasks() {
         subtasks.clear();
@@ -104,6 +83,4 @@ public class Epic extends Task {
     public String toString() {
         return super.toString();
     }
-
-
 }

@@ -107,7 +107,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         }
     }
 
-
     public void historyFromString(ArrayList<String> values) {
         String histId2 = values.get(values.size()-1);
         String[] histId = histId2.split(",");
@@ -186,8 +185,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     }
 
     @Override
-    public SubTask createSubTask(SubTask subTask) {
-        final SubTask subTaskNew = super.createSubTask(subTask);
+    public SubTask createSubTask(SubTask subTask, Integer epicId) {
+        final SubTask subTaskNew = super.createSubTask(subTask, epicId);
         save();
         return subTaskNew;
     }

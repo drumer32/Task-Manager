@@ -18,7 +18,7 @@ public interface TaskManager {
 
     Map<Integer, SubTask> getSubTaskByEpic(Epic epic);
 
-    Map<Integer, SubTask>   getSubTaskByEpicId(Integer epicId);
+    Map<Integer, SubTask> getSubTaskByEpicId(Integer epicId);
 
     Task findById(Integer id);
 
@@ -30,7 +30,7 @@ public interface TaskManager {
 
     Epic createEpic(Epic epic);
 
-    SubTask createSubTask(SubTask subTask);
+    SubTask createSubTask(SubTask subTask, Integer epicId);
 
     void updateTask(Task taskUpdated);
 
@@ -43,6 +43,8 @@ public interface TaskManager {
     void deleteSubTaskById(Integer id);
 
     void deleteEpicById(Integer id);
+
+    void clearAll();
 
     List<Task> history();
 
