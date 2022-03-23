@@ -133,8 +133,8 @@ public class InMemoryTaskManager implements TaskManager {
         if (epicSaved == null) {
             return;
         }
-        epicUpdated.setTaskDescription(epicUpdated.getTaskDescription());
-        epicUpdated.setTaskName(epicUpdated.getTaskName());
+        epicSaved.setTaskDescription(epicUpdated.getTaskDescription());
+        epicSaved.setTaskName(epicUpdated.getTaskName());
     }
 
     @Override
@@ -153,7 +153,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void deleteTaskById(Integer id) {
         final Task task = tasks.remove(id);
         if (task == null) {
-            return;
+            System.out.println("Not found");
         }
         inMemoryHistoryManager.remove(id);
         System.out.println("Задача id " + id + " удалена");
@@ -161,12 +161,13 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteSubTaskById(Integer id) {
-        final SubTask subTask = subTasks.remove(id);
+        final SubTask subTask = subTasks.get(id);
         if (subTask == null) {
-            return;
+            System.out.println("Not found");
         }
         final Epic epic = epics.get(subTask.getEpicId());
         epic.getSubTasks().remove(subTask.getId());
+        subTasks.remove(id);
         inMemoryHistoryManager.remove(id);
         System.out.println("Подзадача id " + id + " удалена");
     }
@@ -175,7 +176,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void deleteEpicById(Integer id) {
         Epic epic = epics.get(id);
         if (epic == null) {
-            return;
+            System.out.println("Not found");
         }
         for (Integer key : epic.getSubTasks()) {
             subTasks.remove(key);

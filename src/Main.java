@@ -85,8 +85,8 @@ public class Main {
         taskManager.printHistory();
         System.out.println("");
 
-        taskManager.deleteTaskById(taskId);
-        taskManager.deleteEpicById(epic1id);
+        taskManager.deleteSubTaskById(subtask1Id);
+        taskManager.getSubTaskAll();
 
         System.out.println("");
         System.out.println("Кол-во записей в истории " + taskManager.history().size());

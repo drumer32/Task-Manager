@@ -79,68 +79,58 @@ public class InMemoryTaskManagerTest {
     }
 
     @Test
-    public void findByIdTest(Integer id) {
-        taskManager.findById(id);
+    public void findByIdTest() {
+        Assertions.assertEquals(1, taskManager.findById(1).getId());
     }
 
 
     @Test
-    public void findSubTaskByIdTest(Integer id) {
-        taskManager.findSubTaskById(id);
+    public void findSubTaskByIdTest() {
+        Assertions.assertEquals(6, taskManager.findSubTaskById(6).getId());
     }
 
 
     @Test
-    public void findEpicByIdTest(Integer id) {
-        taskManager.findEpicById(id);
+    public void findEpicByIdTest() {
+        Assertions.assertEquals(3, taskManager.findEpicById(3).getId());
     }
 
-
-    public void createTaskTest(Task task) {
-        taskManager.createTask(task);
-    }
-
-
-    public void createEpicTest(Epic epic) {
-        taskManager.createEpic(epic);
-    }
-
-
-    public void createSubTaskTest(SubTask subTask, Integer epicId) {
-        taskManager.createSubTask(subTask, epicId);
-    }
-
-
-    public void updateTaskTest(Task taskUpdated) {
+    @Test
+    public void updateTaskTest() {
+        Task taskUpdated = new Task(task.getId(),"UPDATED NAME");
         taskManager.updateTask(taskUpdated);
+        Assertions.assertEquals("UPDATED NAME", task.getTaskName());
     }
 
-
-    public void updateEpicTest(Epic epicUpdated) {
+    @Test
+    public void updateEpicTest() {
+        Epic epicUpdated = new Epic(epic1.getId(),"EPIC UPDATED");
         taskManager.updateEpic(epicUpdated);
+        Assertions.assertEquals("EPIC UPDATED", epic1.getTaskName());
     }
 
-
-    public void updateSubTaskTest(SubTask SubTaskUpdated) {
-        taskManager.updateSubTask(SubTaskUpdated);
+    @Test
+    public void updateSubTaskTest() {
+        SubTask subTaskUpdated = new SubTask(subTask.getId(), "SUBTASK UPDATED");
+        taskManager.updateSubTask(subTaskUpdated);
+        Assertions.assertEquals("SUBTASK UPDATED", subTask.getTaskName());
     }
 
-
-    public void deleteTaskByIdTest(Integer id) {
-        taskManager.deleteTaskById(id);
+    @Test
+    public void deleteTaskByIdTest() {
+        taskManager.deleteTaskById(task.getId());
+        Assertions.assertEquals(1, taskManager.getAllTasks().size());
     }
 
-
-    public void deleteSubTaskByIdTest(Integer id) {
-        taskManager.deleteSubTaskById(id);
+    @Test
+    public void deleteSubTaskByIdTest() {
+        taskManager.deleteSubTaskById(subTask.getId());
+        Assertions.assertEquals(2, taskManager.getSubTaskAll().size());
     }
 
-
-    public void deleteEpicByIdTest(Integer id) {
-        taskManager.deleteEpicById(id);
-    }
-
-    public void historyTest() {
-        taskManager.history();
+    @Test
+    public void deleteEpicByIdTest() {
+        taskManager.deleteEpicById(epic1.getId());
+        Assertions.assertEquals(1, taskManager.getAllEpic().size());
     }
 }
