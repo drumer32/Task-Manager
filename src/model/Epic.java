@@ -7,13 +7,11 @@ import support.TaskType;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class Epic extends Task {
 
-    HashMap<Integer, SubTask> subtasks = new HashMap<>();
+    List<Integer> subtasks = new ArrayList<>();
 
     public Epic(Integer id, TaskType type, String taskName, Status status, String taskDescription) {
         super(taskName, taskDescription, id, status);
@@ -24,7 +22,7 @@ public class Epic extends Task {
         super(taskDescription, taskName);
     }
 
-    public Epic(Task task, HashMap<Integer, SubTask> subtasks) {
+    public Epic(Task task, List<Integer> subtasks) {
         super(task);
         this.subtasks = subtasks;
     }
@@ -38,8 +36,11 @@ public class Epic extends Task {
     }
 
     public void addSubTask(SubTask subTask) {
-        Integer epicId = subTask.getEpicId();
-        subtasks.put(epicId, subTask);
+        subtasks.add(subTask.getId());
+    }
+
+    public List<Integer> getSubTasks() {
+        return subtasks;
     }
 
     @Override
@@ -56,10 +57,6 @@ public class Epic extends Task {
     @Override
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public HashMap<Integer, SubTask> getSubTasks() {
-        return subtasks;
     }
 
     public void deleteSubTasks() {

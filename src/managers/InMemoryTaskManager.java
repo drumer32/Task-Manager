@@ -37,12 +37,12 @@ public class InMemoryTaskManager implements TaskManager {
     }
     //	ПОЛУЧЕНИЕ списка всех подзадач определённого эпика.
     @Override
-    public HashMap<Integer, SubTask>  getSubTaskByEpic(Epic epic) {
+    public List<Integer> getSubTaskByEpic(Epic epic) {
         return epics.get(epic.getId()).getSubTasks();
     }
     
     @Override
-    public HashMap<Integer, SubTask>  getSubTaskByEpicId(Integer epicId) {
+    public List<Integer> getSubTaskByEpicId(Integer epicId) {
         return epics.get(epicId).getSubTasks();
     }
 
@@ -76,7 +76,6 @@ public class InMemoryTaskManager implements TaskManager {
         task.setId(id);
         task.setStatus(NEW);
         task.setType(TASK);
-        System.out.println(id);
         if (tasks.containsKey(task.getId())) {
             System.out.println("Такая задача существует id = " + task.getId());
             return null;
@@ -88,15 +87,15 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Epic createEpic(Epic epic) {
         Integer id = idGenerator.generateId();
-        final Epic epicNew = new Epic(id, EPIC, epic.getTaskName(), NEW,
-                epic.getTaskDescription());
-        System.out.println(id);
-        if (epics.containsKey(epicNew.getId())) {
+        epic.setId(id);
+        epic.setStatus(NEW);
+        epic.setType(EPIC);
+        if (epics.containsKey(epic.getId())) {
             System.out.println("Такая задача существует id = " + epic.getId());
             return null;
         }
-        epics.put(id, epicNew);
-        return epicNew;
+        epics.put(id, epic);
+        return epic;
     }
 
     @Override
@@ -105,14 +104,15 @@ public class InMemoryTaskManager implements TaskManager {
             System.out.println("Не найден эпик id = " + epicId);
             return null;
         }
-        int id = idGenerator.generateId();;
-        final SubTask subTaskNew = new SubTask(id, SUBTASK, subTask.getTaskName(), NEW,
-                subTask.getTaskDescription(), epicId);
-        System.out.println(id);
-        subTasks.put(id, subTaskNew);
-        final Epic epic = epics.get(subTaskNew.getEpicId());
-        epic.addSubTask(subTaskNew);
-        return subTaskNew;
+        int id = idGenerator.generateId();
+        subTask.setId(id);
+        subTask.setStatus(NEW);
+        subTask.setType(SUBTASK);
+        subTask.setEpicId(epicId);
+        subTasks.put(id, subTask);
+        final Epic epic = epics.get(epicId);
+        epic.addSubTask(subTask);
+        return subTask;
     }
 
     //	Обновление задачи любого типа по идентификатору. Новая версия объекта передаётся в виде параметра.
@@ -166,23 +166,9 @@ public class InMemoryTaskManager implements TaskManager {
             return;
         }
         final Epic epic = epics.get(subTask.getEpicId());
-        epic.getSubTasks().remove(subTask);
+        epic.getSubTasks().remove(subTask.getId());
         inMemoryHistoryManager.remove(id);
         System.out.println("Подзадача id " + id + " удалена");
-    }
-
-    public Set<Integer> keyFinder(Integer id) {
-        Epic epic = epics.get(id);
-        Integer key = 0;
-        Set<Integer> keys = new HashSet<>();
-        for (Integer subtaskInEpic : getSubTaskByEpic(epic).keySet()) {
-            for (SubTask subTask : subTasks.values()) {
-                if (subTask.getEpicId().equals(subtaskInEpic)) {
-                    key = subTask.getId();
-                    keys.add(key);
-                }
-            }
-        } return keys;
     }
 
     @Override
@@ -191,11 +177,13 @@ public class InMemoryTaskManager implements TaskManager {
         if (epic == null) {
             return;
         }
-        for (Integer key : keyFinder(id)) {
+        for (Integer key : epic.getSubTasks()) {
             subTasks.remove(key);
             inMemoryHistoryManager.remove(key);
+            System.out.println("Подзадача id " + key + " удалена");
         }
         epics.remove(id);
+        epic.deleteSubTasks();
         inMemoryHistoryManager.remove(id);
         System.out.println("Эпик id " + id + " удален");
     }

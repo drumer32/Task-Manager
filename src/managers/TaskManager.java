@@ -16,9 +16,9 @@ public interface TaskManager {
 
     List<Task> getSubTaskAll();
 
-    Map<Integer, SubTask> getSubTaskByEpic(Epic epic);
+    List<Integer> getSubTaskByEpic(Epic epic);
 
-    Map<Integer, SubTask> getSubTaskByEpicId(Integer epicId);
+    List<Integer> getSubTaskByEpicId(Integer epicId);
 
     Task findById(Integer id);
 

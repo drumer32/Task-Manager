@@ -140,12 +140,12 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     }
 
     @Override
-    public HashMap<Integer, SubTask> getSubTaskByEpic(Epic epic) {
+    public List<Integer> getSubTaskByEpic(Epic epic) {
         return super.getSubTaskByEpic(epic);
     }
 
     @Override
-    public HashMap<Integer, SubTask>  getSubTaskByEpicId(Integer epicId) {
+    public List<Integer>  getSubTaskByEpicId(Integer epicId) {
         return super.getSubTaskByEpicId(epicId);
     }
 
@@ -219,11 +219,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     public void deleteSubTaskById(Integer id) {
         super.deleteSubTaskById(id);
         save();
-    }
-
-    @Override
-    public Set<Integer> keyFinder(Integer id) {
-        return super.keyFinder(id);
     }
 
     @Override

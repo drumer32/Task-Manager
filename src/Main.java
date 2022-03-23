@@ -4,6 +4,7 @@ import managers.TaskManager;
 import model.Epic;
 import model.SubTask;
 import model.Task;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.io.IOException;
 
@@ -23,60 +24,45 @@ public class Main {
 
     public static void main(String[] args) {
         final TaskManager taskManager = Managers.getDefault(IN_MEMORY);
-
-        //1. СОЗДАНИЕ ЗАДАЧ
-
-        Task task = new Task("Task1name", "Task1description");
-        Task task2 = new Task("Task2name", "Task2description");
-
-        final Task taskNew = taskManager.createTask(task);
-        final Task task2New = taskManager.createTask(task2);
-        final Integer taskId = taskNew.getId();
-        final Integer taskId2 = task2New.getId();
-
-
-        //СОЗДАНИЕ ЭПИКОВ
-
-        Epic epic1 = new Epic("Epic1name", "Epic1description");
-        Epic epic2 = new Epic("Epic2name", "Epic2description");
-
-        final Epic epic1new = taskManager.createEpic(epic1);
-        final Epic epic2new = taskManager.createEpic(epic2);
-
-        final Integer epic1id = epic1new.getId();
-        final Integer epic2id = epic2new.getId();
-
-        //СОЗДАНИЕ САБТАСКОВ
-
+        
+        Task task = taskManager.createTask(new Task("Task1name", "Task1description"));
+        Task task2 = taskManager.createTask(new Task("Task2name", "Task2description"));
+        Epic epic1 = taskManager.createEpic(new Epic("Epic1name", "Epic1description"));
+        Epic epic2 = taskManager.createEpic(new Epic("Epic2name", "Epic2description"));
         SubTask subTask = new SubTask("SubTask1", "Subtask1description");
         SubTask subTask2 = new SubTask("SubTask2", "Subtask2description");
         SubTask subTask3 = new SubTask("SubTask3", "Subtask3description");
 
-        final SubTask subTaskNew = taskManager.createSubTask(subTask, epic1id);
-        final SubTask subTask2New = taskManager.createSubTask(subTask2, epic1id);
-        final SubTask subTask3New = taskManager.createSubTask(subTask3, epic1id);
-
-        final Integer subtask1Id = subTaskNew.getId();
-        final Integer subtask2Id = subTask2New.getId();
-        final Integer subtask3Id = subTask3New.getId();
+            final Integer epic1id = epic1.getId();
+            final Integer epic2id = epic2.getId();
+            final Integer taskId = task.getId();
+            final Integer taskId2 = task2.getId();
+            //СОЗДАНИЕ САБТАСОК
+            taskManager.createSubTask(subTask, epic1id);
+            taskManager.createSubTask(subTask2, epic1id);
+            taskManager.createSubTask(subTask3, epic1id);
+            //АЙДИ САБТАСОК
+            final Integer subtask1Id = subTask.getId();
+            final Integer subtask2Id = subTask2.getId();
+            final Integer subtask3Id = subTask3.getId();
 
         //НАЧАЛО ВЫВОДА
-        System.out.println(taskNew.getType() + " " + taskNew.getTaskName() + " " + taskNew.getTaskDescription() +
-                " id: " + taskNew.getId());
-        System.out.println(task2New.getType() + " " + task2New.getTaskName() + " " + task2New.getTaskDescription() +
-                " id: " + task2New.getId());
+        System.out.println(task.getType() + " " + task.getTaskName() + " " + task.getTaskDescription() +
+                " id: " + task.getId());
+        System.out.println(task2.getType() + " " + task2.getTaskName() + " " + task2.getTaskDescription() +
+                " id: " + task2.getId());
         System.out.println("");
-        System.out.println(epic1new.getType() + " " + epic1new.getTaskName() + " " + epic1new.getTaskDescription() +
-                " id: " + epic1new.getId());
-        System.out.println(subTaskNew.getType() + " " + subTaskNew.getTaskName() + " " + subTaskNew.getTaskDescription() +
-                " id: " + subTaskNew.getId());
-        System.out.println(subTask2New.getTaskName() + " " + subTask2New.getTaskDescription() +
-                " id: " + subTask2New.getId());
-        System.out.println(subTask3New.getTaskName() + " " + subTask3New.getTaskDescription() +
-                " id: " + subTask3New.getId() + " " + subTask3New.getEpicId());
+        System.out.println(epic1.getType() + " " + epic1.getTaskName() + " " + epic1.getTaskDescription() +
+                " id: " + epic1.getId());
+        System.out.println(subTask.getType() + " " + subTask.getTaskName() + " " + subTask.getTaskDescription() +
+                " id: " + subTask.getId());
+        System.out.println(subTask2.getTaskName() + " " + subTask2.getTaskDescription() +
+                " id: " + subTask2.getId());
+        System.out.println(subTask3.getTaskName() + " " + subTask3.getTaskDescription() +
+                " id: " + subTask3.getId() + " " + subTask3.getEpicId());
         System.out.println("");
-        System.out.println(epic2new.getTaskName() + " " + epic2new.getTaskDescription() +
-                " id: " + epic2new.getId());
+        System.out.println(epic2.getTaskName() + " " + epic2.getTaskDescription() +
+                " id: " + epic2.getId());
         System.out.println("");
 
         //2 и 3. Запрос задач и вывод истории
