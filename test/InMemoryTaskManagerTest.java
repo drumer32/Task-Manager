@@ -7,6 +7,9 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import support.Status;
+
+import static support.Status.DONE;
 
 public class InMemoryTaskManagerTest {
 
@@ -50,6 +53,20 @@ public class InMemoryTaskManagerTest {
     @Test
     public void subtasksHaveEpicTest() {
         Assertions.assertEquals(epic1.getId(), subTask.getEpicId());
+    }
+
+    @Test
+    public void checkEpicStatus() {
+        SubTask subTaskUpd = new SubTask(subTask.getId(), subTask.getType(), subTask.getTaskName(),
+                DONE, subTask.getTaskDescription(), subTask.getEpicId());
+        SubTask subTask2Upd = new SubTask(subTask2.getId(), subTask2.getType(), subTask2.getTaskName(),
+                DONE, subTask2.getTaskDescription(), subTask2.getEpicId());
+        SubTask subTask3Upd = new SubTask(subTask3.getId(), subTask3.getType(), subTask3.getTaskName(),
+                DONE, subTask3.getTaskDescription(), subTask3.getEpicId());
+        taskManager.updateSubTask(subTaskUpd);
+        taskManager.updateSubTask(subTask2Upd);
+        taskManager.updateSubTask(subTask3Upd);
+        Assertions.assertEquals(DONE, epic1.getStatus());
     }
 
     @Test

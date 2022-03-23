@@ -12,6 +12,7 @@ import java.util.*;
 public class Epic extends Task {
 
     List<Integer> subtasks = new ArrayList<>();
+    List<Status> statuses = new ArrayList<>();
 
     public Epic(Integer id, TaskType type, String taskName, Status status, String taskDescription) {
         super(taskName, taskDescription, id, status);
@@ -35,12 +36,17 @@ public class Epic extends Task {
         return status;
     }
 
+    public List<Status> getStatuses () {
+        return statuses;
+    }
+
     public void setStatus(Status status) {
         this.status = status;
     }
 
     public void addSubTask(SubTask subTask) {
         subtasks.add(subTask.getId());
+        statuses.add(subTask.getStatus());
     }
 
     public List<Integer> getSubTasks() {

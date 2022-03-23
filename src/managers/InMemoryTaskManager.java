@@ -4,11 +4,12 @@ import model.Epic;
 import support.IdGenerator;
 import model.SubTask;
 import model.Task;
+import support.Status;
 
 import java.io.IOException;
 import java.util.*;
 
-import static support.Status.NEW;
+import static support.Status.*;
 import static support.TaskType.*;
 
 public class InMemoryTaskManager implements TaskManager {
@@ -138,14 +139,19 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void updateSubTask(SubTask SubTaskUpdated) {
-        final SubTask SubTaskSaved = subTasks.get(SubTaskUpdated.getId());
-        if (SubTaskSaved == null) {
+    public void updateSubTask(SubTask subTaskUpdated) {
+        if (subTaskUpdated == null) {
             return;
         }
-        SubTaskSaved.setTaskDescription(SubTaskUpdated.getTaskDescription());
-        SubTaskSaved.setTaskName(SubTaskUpdated.getTaskName());
-        SubTaskSaved.setStatus(SubTaskUpdated.getStatus());
+        final SubTask subTaskSaved = subTasks.get(subTaskUpdated.getId());
+        subTaskSaved.setTaskDescription(subTaskUpdated.getTaskDescription());
+        subTaskSaved.setTaskName(subTaskUpdated.getTaskName());
+        subTaskSaved.setStatus(subTaskUpdated.getStatus());
+        Epic epic = epics.get(subTaskSaved.getEpicId());
+        if (!epic.getStatuses().contains(NEW) || !epic.getStatuses().contains(IN_PROGRESS)) {
+            epic.setStatus(DONE);
+        }
+
     }
 
     // Удаление ранее добавленных задач — всех и по идентификатору.
