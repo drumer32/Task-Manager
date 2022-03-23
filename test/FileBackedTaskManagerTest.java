@@ -63,5 +63,7 @@ public class FileBackedTaskManagerTest extends HistoryManagerTest {
         taskManager.findSubTaskById(subTask3.getId());
         taskManager.loadFromFile(filename);
         Assertions.assertFalse(taskManager.getAllTasks().isEmpty());
+        Assertions.assertFalse(taskManager.getSubTaskAll().isEmpty());
+        Assertions.assertFalse(taskManager.getAllEpic().isEmpty());
     }
 }
