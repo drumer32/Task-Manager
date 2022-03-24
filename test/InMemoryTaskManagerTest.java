@@ -9,18 +9,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import support.Status;
 
+import java.time.Duration;
+
 import static support.Status.DONE;
 
 public class InMemoryTaskManagerTest {
 
     TaskManager taskManager = new InMemoryTaskManager();
-    Task task = new Task("Task1name", "Task1description");
-    Task task2 = new Task("Task2name", "Task2description");
-    Epic epic1 = new Epic("Epic1name", "Epic1description");
-    Epic epic2 = new Epic("Epic2name", "Epic2description");
-    SubTask subTask = new SubTask("SubTask1", "Subtask1description");
-    SubTask subTask2 = new SubTask("SubTask2", "Subtask2description");
-    SubTask subTask3 = new SubTask("SubTask3", "Subtask3description");
+    Task task = new Task("Task1name", "Task1description", Duration.ofMinutes(2000));
+    Task task2 = new Task("Task2name", "Task2description", Duration.ofMinutes(2000));
+    Epic epic1 = new Epic("Epic1name", "Epic1description", Duration.ofMinutes(2000));
+    Epic epic2 = new Epic("Epic2name", "Epic2description", Duration.ofMinutes(2000));
+    SubTask subTask = new SubTask("SubTask1", "Subtask1description", Duration.ofMinutes(2000));
+    SubTask subTask2 = new SubTask("SubTask2", "Subtask2description", Duration.ofMinutes(2000));
+    SubTask subTask3 = new SubTask("SubTask3", "Subtask3description", Duration.ofMinutes(2000));
 
     @BeforeEach
     public void generateTasks () {

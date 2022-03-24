@@ -11,12 +11,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-/**
- * TODO
-* Пустая история задач.
-* Дублирование.
-* Удаление из истории: начало, середина, конец.
- */
 
 public class HistoryManagerTest {
 

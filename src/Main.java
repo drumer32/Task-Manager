@@ -7,17 +7,10 @@ import model.Task;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.io.IOException;
+import java.time.Duration;
 
 import static support.Status.DONE;
 
-/**
- * TODO
- * Создать файл, который хранит список созданных и просмотренных объектов
- * Автосохранение (Override) TaskManagerBackup после каждого действия
- * История просмотров в файле хранит только ID задачи
- * Восстановление созданных задач и истории просмотров из файла
- *
- */
 
 public class Main {
     private static final Integer IN_MEMORY = 1;
@@ -25,13 +18,17 @@ public class Main {
     public static void main(String[] args) {
         final TaskManager taskManager = Managers.getDefault(IN_MEMORY);
         
-        Task task = taskManager.createTask(new Task("Task1name", "Task1description"));
-        Task task2 = taskManager.createTask(new Task("Task2name", "Task2description"));
-        Epic epic1 = taskManager.createEpic(new Epic("Epic1name", "Epic1description"));
-        Epic epic2 = taskManager.createEpic(new Epic("Epic2name", "Epic2description"));
-        SubTask subTask = new SubTask("SubTask1", "Subtask1description");
-        SubTask subTask2 = new SubTask("SubTask2", "Subtask2description");
-        SubTask subTask3 = new SubTask("SubTask3", "Subtask3description");
+        Task task = taskManager.createTask(new Task
+                ("Task1name", "Task1description", Duration.ofHours(48)));
+        Task task2 = taskManager.createTask(new Task
+                ("Task2name", "Task2description", Duration.ofHours(48)));
+        Epic epic1 = taskManager.createEpic(new Epic
+                ("Epic1name", "Epic1description", Duration.ofHours(48)));
+        Epic epic2 = taskManager.createEpic(new Epic
+                ("Epic2name", "Epic2description", Duration.ofHours(48)));
+        SubTask subTask = new SubTask("SubTask1", "Subtask1description", Duration.ofHours(48));
+        SubTask subTask2 = new SubTask("SubTask2", "Subtask2description", Duration.ofHours(48));
+        SubTask subTask3 = new SubTask("SubTask3", "Subtask3description", Duration.ofHours(48));
 
             final Integer epic1id = epic1.getId();
             final Integer epic2id = epic2.getId();
@@ -48,7 +45,8 @@ public class Main {
 
         //НАЧАЛО ВЫВОДА
         System.out.println(task.getType() + " " + task.getTaskName() + " " + task.getTaskDescription() +
-                " id: " + task.getId());
+                " id: " + task.getId() + " st/time " + task.getStartTime()
+                + " Dur " + task.getDuration().toString() + "end " + task.getFinishTime());
         System.out.println(task2.getType() + " " + task2.getTaskName() + " " + task2.getTaskDescription() +
                 " id: " + task2.getId());
         System.out.println("");

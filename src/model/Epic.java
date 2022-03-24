@@ -7,25 +7,28 @@ import support.TaskType;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class Epic extends Task {
 
-    List<Integer> subtasks = new ArrayList<>();
-    List<Status> statuses = new ArrayList<>();
+    private List<Integer> subtasksIds = new ArrayList<>();
+    private final List<Status> statuses = new ArrayList<>();
+    private HashMap<Integer, SubTask> subtasks = new HashMap<>();
 
     public Epic(Integer id, TaskType type, String taskName, Status status, String taskDescription) {
         super(taskName, taskDescription, id, status);
         this.type = type;
     }
 
-    public Epic(String taskName, String taskDescription) {
-        super(taskDescription, taskName);
+    public Epic(String taskName, String taskDescription, Duration duration) {
+        super(taskDescription, taskName, duration);
     }
 
-    public Epic(Task task, List<Integer> subtasks) {
+    public Epic(Task task, List<Integer> subtasksIds) {
         super(task);
-        this.subtasks = subtasks;
+        this.subtasksIds = subtasksIds;
     }
 
     public Epic(Integer id, String taskName) {
@@ -45,11 +48,16 @@ public class Epic extends Task {
     }
 
     public void addSubTask(SubTask subTask) {
-        subtasks.add(subTask.getId());
+        subtasksIds.add(subTask.getId());
         statuses.add(subTask.getStatus());
+        subtasks.put(id, subTask);
     }
 
-    public List<Integer> getSubTasks() {
+    public List<Integer> getSubTasksIds() {
+        return subtasksIds;
+    }
+
+    public HashMap<Integer, SubTask> getSubtasks() {
         return subtasks;
     }
 
@@ -57,6 +65,7 @@ public class Epic extends Task {
     public TaskType getType() {
         return type;
     }
+
     public void setType(TaskType type) {
         this.type = type;
     }
@@ -70,7 +79,41 @@ public class Epic extends Task {
     }
 
     public void deleteSubTasks() {
-        subtasks.clear();
+        subtasksIds.clear();
+    }
+
+    @Override
+    public Duration getDuration() {
+        if (getStartTime() == null) {
+            return Duration.ZERO;
+        }
+        LocalDateTime lastSubtaskFinish = LocalDateTime.MIN;
+        for (SubTask subtask : getSubtasks().values()) {
+            if (subtask.getStartTime() == null) {
+                break;
+            }
+            if (subtask.getFinishTime().isAfter(lastSubtaskFinish)) {
+                lastSubtaskFinish = subtask.getFinishTime();
+            }
+        }
+        return Duration.between(getStartTime(), lastSubtaskFinish);
+    }
+
+    @Override
+    public LocalDateTime getStartTime() {
+        LocalDateTime startFirstSubtask = LocalDateTime.MAX;
+        for (SubTask subtask : subtasks.values()) {
+            if (subtask.getStartTime() != null &&
+                    startFirstSubtask.isAfter(subtask.getStartTime())) {
+                startFirstSubtask = subtask.getStartTime();
+            }
+        }
+        if (startFirstSubtask.isEqual(LocalDateTime.MAX)) {
+            return null;
+        } else {
+            return startFirstSubtask;
+        }
+
     }
 
     @Override

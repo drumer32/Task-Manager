@@ -7,6 +7,7 @@ import model.SubTask;
 import model.Task;
 
 import java.io.IOException;
+import java.time.Duration;
 
 import static support.Status.DONE;
 
@@ -22,8 +23,10 @@ public class Save{
 
 //        //1. СОЗДАНИЕ ЗАДАЧ
 //
-//        Task task = new Task("Task1name", "Task1description");
-//        Task task2 = new Task("Task2name", "Task2description");
+//        Task task = new Task
+//                ("Task1name", "Task1description", Duration.ofMinutes(2000));
+//        Task task2 = new Task
+//                ("Task2name", "Task2description", Duration.ofMinutes(2000));
 //
 //        final Task taskNew = fileBackedTaskManager.createTask(task);
 //        final Task task2New = fileBackedTaskManager.createTask(task2);
@@ -33,8 +36,10 @@ public class Save{
 //
 //        //СОЗДАНИЕ ЭПИКОВ
 //
-//        Epic epic1 = new Epic("Epic1name", "Epic1description");
-//        Epic epic2 = new Epic("Epic2name", "Epic2description");
+//        Epic epic1 = new Epic
+//                ("Epic1name", "Epic1description", Duration.ofMinutes(2000));
+//        Epic epic2 = new Epic
+//                ("Epic2name", "Epic2description", Duration.ofMinutes(2000));
 //
 //        final Epic epic1new = fileBackedTaskManager.createEpic(epic1);
 //        final Epic epic2new = fileBackedTaskManager.createEpic(epic2);
@@ -44,13 +49,13 @@ public class Save{
 //
 //        //СОЗДАНИЕ САБТАСКОВ
 //
-//        SubTask subTask = new SubTask("SubTask1", "Subtask1description");
-//        SubTask subTask2 = new SubTask("SubTask2", "Subtask2description");
-//        SubTask subTask3 = new SubTask("SubTask3", "Subtask3description");
+//        SubTask subTask = new SubTask("SubTask1", "Subtask1description", Duration.ofMinutes(2000));
+//        SubTask subTask2 = new SubTask("SubTask2", "Subtask2description", Duration.ofMinutes(2000));
+//        SubTask subTask3 = new SubTask("SubTask3", "Subtask3description", Duration.ofMinutes(2000));
 //
-//        final SubTask subTaskNew = taskManager.createSubTask(subTask, epic1id);
-//        final SubTask subTask2New = taskManager.createSubTask(subTask2, epic1id);
-//        final SubTask subTask3New = taskManager.createSubTask(subTask3, epic1id);
+//        final SubTask subTaskNew = fileBackedTaskManager.createSubTask(subTask, epic1id);
+//        final SubTask subTask2New = fileBackedTaskManager.createSubTask(subTask2, epic1id);
+//        final SubTask subTask3New = fileBackedTaskManager.createSubTask(subTask3, epic1id);
 //
 //        final Integer subtask1Id = subTaskNew.getId();
 //        final Integer subtask2Id = subTask2New.getId();

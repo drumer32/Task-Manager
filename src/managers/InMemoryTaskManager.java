@@ -7,6 +7,8 @@ import model.Task;
 import support.Status;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.*;
 
 import static support.Status.*;
@@ -39,12 +41,12 @@ public class InMemoryTaskManager implements TaskManager {
     //	ПОЛУЧЕНИЕ списка всех подзадач определённого эпика.
     @Override
     public List<Integer> getSubTaskByEpic(Epic epic) {
-        return epics.get(epic.getId()).getSubTasks();
+        return epics.get(epic.getId()).getSubTasksIds();
     }
     
     @Override
     public List<Integer> getSubTaskByEpicId(Integer epicId) {
-        return epics.get(epicId).getSubTasks();
+        return epics.get(epicId).getSubTasksIds();
     }
 
     //	Получение задачи любого типа ПО ИДЕНТИФИКАТОРУ.
@@ -77,6 +79,7 @@ public class InMemoryTaskManager implements TaskManager {
         task.setId(id);
         task.setStatus(NEW);
         task.setType(TASK);
+        task.setStartTime(String.valueOf(LocalDateTime.now()));
         if (tasks.containsKey(task.getId())) {
             System.out.println("Такая задача существует id = " + task.getId());
             return null;
@@ -91,6 +94,7 @@ public class InMemoryTaskManager implements TaskManager {
         epic.setId(id);
         epic.setStatus(NEW);
         epic.setType(EPIC);
+        epic.setStartTime(String.valueOf(LocalDateTime.now()));
         if (epics.containsKey(epic.getId())) {
             System.out.println("Такая задача существует id = " + epic.getId());
             return null;
@@ -110,6 +114,7 @@ public class InMemoryTaskManager implements TaskManager {
         subTask.setStatus(NEW);
         subTask.setType(SUBTASK);
         subTask.setEpicId(epicId);
+        subTask.setStartTime(String.valueOf(LocalDateTime.now()));
         subTasks.put(id, subTask);
         final Epic epic = epics.get(epicId);
         epic.addSubTask(subTask);
@@ -151,7 +156,6 @@ public class InMemoryTaskManager implements TaskManager {
         if (!epic.getStatuses().contains(NEW) || !epic.getStatuses().contains(IN_PROGRESS)) {
             epic.setStatus(DONE);
         }
-
     }
 
     // Удаление ранее добавленных задач — всех и по идентификатору.
@@ -172,7 +176,7 @@ public class InMemoryTaskManager implements TaskManager {
             System.out.println("Not found");
         }
         final Epic epic = epics.get(subTask.getEpicId());
-        epic.getSubTasks().remove(subTask.getId());
+        epic.getSubTasksIds().remove(subTask.getId());
         subTasks.remove(id);
         inMemoryHistoryManager.remove(id);
         System.out.println("Подзадача id " + id + " удалена");
@@ -184,7 +188,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (epic == null) {
             System.out.println("Not found");
         }
-        for (Integer key : epic.getSubTasks()) {
+        for (Integer key : epic.getSubTasksIds()) {
             subTasks.remove(key);
             inMemoryHistoryManager.remove(key);
             System.out.println("Подзадача id " + key + " удалена");

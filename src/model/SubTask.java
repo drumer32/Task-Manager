@@ -7,6 +7,7 @@ import support.TaskType;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -32,13 +33,13 @@ public class SubTask extends Task {
         this.type = type;
     }
 
-    public SubTask(String name, String description, Integer epicId) {
-        super(name, description);
-        this.epicId = epicId;
-    }
+//    public SubTask(String name, String description, Integer epicId) {
+//        super(name, description);
+//        this.epicId = epicId;
+//    }
 
-    public SubTask(String name, String description) {
-        super(name, description);
+    public SubTask(String name, String description, Duration duration) {
+        super(name, description, duration);
     }
 
     public SubTask(Integer id, String taskName) {
@@ -54,6 +55,7 @@ public class SubTask extends Task {
     public Integer getEpicId() {
         return epicId;
     }
+
     public void setEpicId(Integer epicId) {
         this.epicId = epicId;
     }
@@ -62,21 +64,26 @@ public class SubTask extends Task {
     public TaskType getType() {
         return type;
     }
+
     public void setType(TaskType type) {
         this.type = type;
     }
+
     @Override
     public Integer getId() {
         return id;
     }
+
     @Override
     public void setId(Integer id) {
         this.id = id;
     }
+
     @Override
     public Status getStatus() {
         return status;
     }
+
     public void setStatus(Status status) {
         this.status = status;
     }

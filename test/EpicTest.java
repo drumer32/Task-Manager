@@ -39,7 +39,7 @@ public class EpicTest {
 
     @Test
     public void nullSubtask () {
-        Assertions.assertEquals(0, epic.getSubTasks().size());
+        Assertions.assertEquals(0, epic.getSubTasksIds().size());
     }
 
     @Test
