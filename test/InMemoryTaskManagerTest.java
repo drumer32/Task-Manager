@@ -14,6 +14,7 @@ import static support.Status.DONE;
 
 public class InMemoryTaskManagerTest {
 
+    //начало beforeAll
     TaskManager taskManager = new InMemoryTaskManager();
     TaskGenerator taskGenerator = new TaskGenerator();
 
@@ -25,7 +26,7 @@ public class InMemoryTaskManagerTest {
     SubTask subTask2 = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 4, 15, 15, 30));
     SubTask subTask3 = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 5, 18, 15, 30));
     Task task3 = taskGenerator.generateTask24Hours(LocalDateTime.of(2022, 3, 6, 15, 30));
-
+// конец BeforeAll
     @BeforeEach
     public void createTasks () {
         //ТАСКИ
