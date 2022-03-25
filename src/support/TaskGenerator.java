@@ -6,6 +6,7 @@ import model.Task;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+//ускоряет процесс внутренних проверок и тестирования
 public class TaskGenerator {
 
     public Task generateTask24Hours(LocalDateTime startTime) {
