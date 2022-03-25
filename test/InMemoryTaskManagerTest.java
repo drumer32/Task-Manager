@@ -17,17 +17,17 @@ public class InMemoryTaskManagerTest {
     TaskManager taskManager = new InMemoryTaskManager();
     TaskGenerator taskGenerator = new TaskGenerator();
 
-    Task task = taskGenerator.generateTask24Hours(LocalDateTime.of(2022, 3, 1, 15, 30));
-    Task task2 = taskGenerator.generateTask24Hours(LocalDateTime.of(2022, 3, 3, 15, 30));
+    Task task = taskGenerator.generateTask24Hours(LocalDateTime.of(2022, 1, 1, 15, 30));
+    Task task2 = taskGenerator.generateTask24Hours(LocalDateTime.of(2022, 2, 3, 15, 30));
     Epic epic1 = taskGenerator.generateEpic();
     Epic epic2 = taskGenerator.generateEpic();
     SubTask subTask = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 12, 15, 30));
-    SubTask subTask2 = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 15, 15, 30));
-    SubTask subTask3 = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 18, 15, 30));
-    Task task3 = taskGenerator.generateTask24Hours(LocalDateTime.of(2022, 3, 21, 15, 30));
+    SubTask subTask2 = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 4, 15, 15, 30));
+    SubTask subTask3 = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 5, 18, 15, 30));
+    Task task3 = taskGenerator.generateTask24Hours(LocalDateTime.of(2022, 3, 6, 15, 30));
 
     @BeforeEach
-    public void generateTasks () {
+    public void createTasks () {
         //ТАСКИ
         taskManager.createTask(task);
         taskManager.createTask(task2);

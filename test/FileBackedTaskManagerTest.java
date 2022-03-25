@@ -3,16 +3,14 @@ import managers.TaskManager;
 import model.Epic;
 import model.SubTask;
 import model.Task;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import support.TaskGenerator;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 
 public class FileBackedTaskManagerTest {
+
     String filename = "TaskSavedBackup";
     TaskManager taskManager = new FileBackedTaskManager(filename);
     TaskGenerator taskGenerator = new TaskGenerator();
@@ -26,8 +24,10 @@ public class FileBackedTaskManagerTest {
     SubTask subTask3 = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 1, 18, 15, 30));
     Task task3 = taskGenerator.generateTask24Hours(LocalDateTime.of(2022, 5, 21, 15, 30));
 
+
+
     @BeforeEach
-    public void generateTasks() {
+    public void createTasks() {
         //ТАСКИ
         taskManager.createTask(task);
         taskManager.createTask(task2);

@@ -16,10 +16,10 @@ import static support.TaskType.*;
 
 public class InMemoryTaskManager implements TaskManager {
 
-    protected static HashMap<Integer, Task> tasks = new HashMap <>();
-    protected static HashMap<Integer, Epic> epics = new HashMap<>();
-    protected static HashMap<Integer, SubTask> subTasks = new HashMap<>();
-    protected static TreeSet<Task> sortedTasks = new TreeSet<>();
+    protected HashMap<Integer, Task> tasks = new HashMap <>();
+    protected HashMap<Integer, Epic> epics = new HashMap<>();
+    protected HashMap<Integer, SubTask> subTasks = new HashMap<>();
+    protected TreeSet<Task> sortedTasks = new TreeSet<>();
 
     HistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
     IdGenerator idGenerator = new IdGenerator();

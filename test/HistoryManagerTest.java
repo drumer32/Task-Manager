@@ -15,7 +15,6 @@ public class HistoryManagerTest {
     HistoryManager historyManager = new InMemoryHistoryManager();
     TaskGenerator taskGenerator = new TaskGenerator();
     TaskManager taskManager = new InMemoryTaskManager();
-
     Task task = taskGenerator.generateTask24Hours(LocalDateTime.of(2020, 3, 1, 15, 30));
     Task task2 = taskGenerator.generateTask24Hours(LocalDateTime.of(2021, 3, 3, 15, 30));
     Task task3 = taskGenerator.generateTask24Hours(LocalDateTime.of(2022, 3, 3, 18, 30));
