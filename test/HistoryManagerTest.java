@@ -6,7 +6,9 @@ import model.Task;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import support.TaskGenerator;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,9 +17,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class HistoryManagerTest {
 
     HistoryManager historyManager = new InMemoryHistoryManager();
-    Task task = new Task(1,"testName", "testDescription");
-    Task task2 = new Task(2, "testName2", "testDescription2");
-    Task task3 = new Task(3, "testName3", "testDescription3");
+    TaskGenerator taskGenerator = new TaskGenerator();
+
+    Task task = taskGenerator.generateTask24Hours(LocalDateTime.of(2022, 3, 1, 15, 30));
+    Task task2 = taskGenerator.generateTask24Hours(LocalDateTime.of(2022, 3, 3, 15, 30));
+    Task task3 = taskGenerator.generateTask24Hours(LocalDateTime.of(2022, 3, 3, 18, 30));
 
     @Test
     public void add() {
@@ -26,6 +30,7 @@ public class HistoryManagerTest {
         assertNotNull(history, "История не пустая.");
         assertEquals(1, history.size(), "История не пустая.");
     }
+
     @Test
     public void sameHistoryNode() {
         historyManager.add(task);

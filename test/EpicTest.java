@@ -8,8 +8,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import support.IdGenerator;
 import support.Status;
+import support.TaskGenerator;
 
 import java.text.CollationElementIterator;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -30,6 +33,7 @@ import static support.TaskType.SUBTASK;
 public class EpicTest {
 
     TaskManager taskManager = new InMemoryTaskManager();
+    TaskGenerator taskGenerator = new TaskGenerator();
     private final Epic epic = new Epic(1, EPIC, "name", NEW, "description");
 
     @BeforeEach
@@ -44,12 +48,13 @@ public class EpicTest {
 
     @Test
     public void allNewSubtasks () {
-        SubTask subTaskNew = new SubTask(2, SUBTASK,"", NEW, "");
-        SubTask subTaskNew2 = new SubTask(3, SUBTASK , "", NEW, "");
-        SubTask subTaskInProgress = new SubTask(4, SUBTASK,"", IN_PROGRESS, "");
+        SubTask subTaskNew = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 24, 15, 30));
+        SubTask subTaskNew2 = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 31, 15, 30));
+        SubTask subTaskInProgress = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 20, 15, 30));
         taskManager.createSubTask(subTaskNew, epic.getId());
         taskManager.createSubTask(subTaskNew2, epic.getId());
         taskManager.createSubTask(subTaskInProgress, epic.getId());
+        subTaskInProgress.setStatus(IN_PROGRESS);
         List<Task> subtasksNew = new ArrayList<>();
         for (Task task : taskManager.getSubTaskAll()) {
             if (task.getStatus().equals(NEW)) {
@@ -61,13 +66,14 @@ public class EpicTest {
 
     @Test
     public void allInProgressSubtasks () {
-        SubTask subTaskNew = new SubTask(2, SUBTASK,"", NEW, "");
-        SubTask subTaskInProgress = new SubTask(3, SUBTASK , "", IN_PROGRESS, "");
-        SubTask subTaskInProgress2 = new SubTask(4, SUBTASK,"", IN_PROGRESS, "");
-        taskManager.createEpic(new Epic(1, EPIC, "name", NEW, "description"));
+        SubTask subTaskNew = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 24, 15, 30));
+        SubTask subTaskInProgress2 = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 31, 15, 30));
+        SubTask subTaskInProgress = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 20, 15, 30));
         taskManager.createSubTask(subTaskNew, epic.getId());
         taskManager.createSubTask(subTaskInProgress2, epic.getId());
         taskManager.createSubTask(subTaskInProgress, epic.getId());
+        subTaskInProgress.setStatus(IN_PROGRESS);
+        subTaskInProgress2.setStatus(IN_PROGRESS);
         List<Task> subtasksInProgress = new ArrayList<>();
         for (Task task : taskManager.getSubTaskAll()) {
             if (task.getStatus().equals(IN_PROGRESS)) {
@@ -79,12 +85,14 @@ public class EpicTest {
 
     @Test
     public void allDoneSubtasks () {
-        SubTask subTaskNew = new SubTask(2, SUBTASK,"", NEW, "", epic.getId());
-        SubTask subTaskDone = new SubTask(3, SUBTASK , "", DONE, "", epic.getId());
-        SubTask subTaskDone2 = new SubTask(4, SUBTASK,"", DONE, "", epic.getId());
+        SubTask subTaskNew = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 24, 15, 30));
+        SubTask subTaskDone = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 31, 15, 30));
+        SubTask subTaskDone2 = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 20, 15, 30));
         taskManager.createSubTask(subTaskNew, epic.getId());
         taskManager.createSubTask(subTaskDone, epic.getId());
         taskManager.createSubTask(subTaskDone2, epic.getId());
+        subTaskDone.setStatus(DONE);
+        subTaskDone2.setStatus(DONE);
         List<Task> subtasksDone = new ArrayList<>();
         for (Task task : taskManager.getSubTaskAll()) {
             if (task.getStatus().equals(DONE)) {
@@ -96,12 +104,14 @@ public class EpicTest {
 
     @Test
     public void allNewAndDoneSubtasks () {
-        SubTask subTaskNew = new SubTask(2, SUBTASK,"", NEW, "", epic.getId());
-        SubTask subTaskDone = new SubTask(3, SUBTASK , "", DONE, "", epic.getId());
-        SubTask subTaskInProgress = new SubTask(4, SUBTASK,"", DONE, "", epic.getId());
+        SubTask subTaskNew = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 24, 15, 30));
+        SubTask subTaskDone = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 31, 15, 30));
+        SubTask subTaskDone2 = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 20, 15, 30));
         taskManager.createSubTask(subTaskNew, epic.getId());
         taskManager.createSubTask(subTaskDone, epic.getId());
-        taskManager.createSubTask(subTaskInProgress, epic.getId());
+        taskManager.createSubTask(subTaskDone2, epic.getId());
+        subTaskDone.setStatus(DONE);
+        subTaskDone2.setStatus(DONE);
         List<Task> subtasksDone = new ArrayList<>();
         for (Task task : taskManager.getSubTaskAll()) {
             if (task.getStatus().equals(DONE) ||

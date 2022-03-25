@@ -8,21 +8,26 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import support.Status;
+import support.TaskGenerator;
 
 import java.time.Duration;
+import java.time.LocalDateTime;
 
 import static support.Status.DONE;
 
 public class InMemoryTaskManagerTest {
 
     TaskManager taskManager = new InMemoryTaskManager();
-    Task task = new Task("Task1name", "Task1description", Duration.ofMinutes(2000));
-    Task task2 = new Task("Task2name", "Task2description", Duration.ofMinutes(2000));
-    Epic epic1 = new Epic("Epic1name", "Epic1description", Duration.ofMinutes(2000));
-    Epic epic2 = new Epic("Epic2name", "Epic2description", Duration.ofMinutes(2000));
-    SubTask subTask = new SubTask("SubTask1", "Subtask1description", Duration.ofMinutes(2000));
-    SubTask subTask2 = new SubTask("SubTask2", "Subtask2description", Duration.ofMinutes(2000));
-    SubTask subTask3 = new SubTask("SubTask3", "Subtask3description", Duration.ofMinutes(2000));
+    TaskGenerator taskGenerator = new TaskGenerator();
+
+    Task task = taskGenerator.generateTask24Hours(LocalDateTime.of(2022, 3, 1, 15, 30));
+    Task task2 = taskGenerator.generateTask24Hours(LocalDateTime.of(2022, 3, 3, 15, 30));
+    Epic epic1 = taskGenerator.generateEpic();
+    Epic epic2 = taskGenerator.generateEpic();
+    SubTask subTask = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 12, 15, 30));
+    SubTask subTask2 = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 15, 15, 30));
+    SubTask subTask3 = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 18, 15, 30));
+    Task task3 = taskGenerator.generateTask24Hours(LocalDateTime.of(2022, 3, 21, 15, 30));
 
     @BeforeEach
     public void generateTasks () {
@@ -59,15 +64,12 @@ public class InMemoryTaskManagerTest {
 
     @Test
     public void checkEpicStatus() {
-        SubTask subTaskUpd = new SubTask(subTask.getId(), subTask.getType(), subTask.getTaskName(),
-                DONE, subTask.getTaskDescription(), subTask.getEpicId());
-        SubTask subTask2Upd = new SubTask(subTask2.getId(), subTask2.getType(), subTask2.getTaskName(),
-                DONE, subTask2.getTaskDescription(), subTask2.getEpicId());
-        SubTask subTask3Upd = new SubTask(subTask3.getId(), subTask3.getType(), subTask3.getTaskName(),
-                DONE, subTask3.getTaskDescription(), subTask3.getEpicId());
-        taskManager.updateSubTask(subTaskUpd);
-        taskManager.updateSubTask(subTask2Upd);
-        taskManager.updateSubTask(subTask3Upd);
+        subTask.setStatus(DONE);
+        subTask2.setStatus(DONE);
+        subTask3.setStatus(DONE);
+        taskManager.updateSubTask(subTask);
+        taskManager.updateSubTask(subTask2);
+        taskManager.updateSubTask(subTask3);
         Assertions.assertEquals(DONE, epic1.getStatus());
     }
 

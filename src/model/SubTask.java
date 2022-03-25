@@ -1,19 +1,9 @@
 package model;
-
-import managers.FileBackedTaskManager;
 import support.Status;
 import support.TaskType;
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.Objects;
-
-import static support.Status.NEW;
-import static support.TaskType.SUBTASK;
 
 public class SubTask extends Task {
     Integer epicId;
@@ -22,34 +12,31 @@ public class SubTask extends Task {
         this.epicId = epicId;
     }
 
-    public SubTask(Integer id, TaskType type, String name, Status status, String description, Integer epicId) {
-        super(name, description, id, status);
-        this.type = type;
+    public SubTask(Integer id, TaskType type, String name, Status status,
+                   String description, Integer epicId,
+                   LocalDateTime startTime, Duration duration) {
+        super(id, type, name, status, description, startTime, duration);
         this.epicId = epicId;
     }
 
-    public SubTask(Integer id, TaskType type, String name, Status status, String description) {
-        super(name, description, id, status);
-        this.type = type;
-    }
 
-//    public SubTask(String name, String description, Integer epicId) {
-//        super(name, description);
-//        this.epicId = epicId;
-//    }
-
-    public SubTask(String name, String description, Duration duration) {
-        super(name, description, duration);
-    }
-
-    public SubTask(Integer id, String taskName) {
-        super(id, taskName);
-    }
-
-
-    public SubTask(Task task, Integer epicId) {
+    public SubTask(Task task) {
         super(task);
+    }
+
+    public SubTask(Integer id, String description) {
+        super(id, description);
+    }
+
+    public SubTask(String name, String description, LocalDateTime startTime, Duration duration) {
+        super(name, description, startTime, duration);
+    }
+
+    //Конструктор для сборки из строки
+    public SubTask(Integer id, TaskType type, String taskName, Status status, String taskDescription, Integer epicId) {
+        super(id, type, taskName, status, taskDescription);
         this.epicId = epicId;
+
     }
 
     public Integer getEpicId() {

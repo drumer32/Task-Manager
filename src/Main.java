@@ -5,9 +5,11 @@ import model.Epic;
 import model.SubTask;
 import model.Task;
 import org.junit.jupiter.api.BeforeEach;
+import support.TaskGenerator;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.time.LocalDateTime;
 
 import static support.Status.DONE;
 
@@ -17,19 +19,21 @@ public class Main {
 
     public static void main(String[] args) {
         final TaskManager taskManager = Managers.getDefault(IN_MEMORY);
-        
-        Task task = taskManager.createTask(new Task
-                ("Task1name", "Task1description", Duration.ofHours(48)));
-        Task task2 = taskManager.createTask(new Task
-                ("Task2name", "Task2description", Duration.ofHours(48)));
-        Epic epic1 = taskManager.createEpic(new Epic
-                ("Epic1name", "Epic1description", Duration.ofHours(48)));
-        Epic epic2 = taskManager.createEpic(new Epic
-                ("Epic2name", "Epic2description", Duration.ofHours(48)));
-        SubTask subTask = new SubTask("SubTask1", "Subtask1description", Duration.ofHours(48));
-        SubTask subTask2 = new SubTask("SubTask2", "Subtask2description", Duration.ofHours(48));
-        SubTask subTask3 = new SubTask("SubTask3", "Subtask3description", Duration.ofHours(48));
 
+        TaskGenerator taskGenerator = new TaskGenerator();
+
+        Task task = taskGenerator.generateTask24Hours(LocalDateTime.of(2020, 3, 1, 15, 30));
+        Task task2 = taskGenerator.generateTask24Hours(LocalDateTime.of(2021, 3, 3, 15, 30));
+        Epic epic1 = taskGenerator.generateEpic();
+        Epic epic2 = taskGenerator.generateEpic();
+        SubTask subTask = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2019, 3, 12, 15, 30));
+        SubTask subTask2 = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 15, 15, 30));
+        SubTask subTask3 = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2018, 3, 18, 15, 30));
+
+            taskManager.createTask(task);
+            taskManager.createTask(task2);
+            taskManager.createEpic(epic1);
+            taskManager.createEpic(epic2);
             final Integer epic1id = epic1.getId();
             final Integer epic2id = epic2.getId();
             final Integer taskId = task.getId();
@@ -46,7 +50,7 @@ public class Main {
         //НАЧАЛО ВЫВОДА
         System.out.println(task.getType() + " " + task.getTaskName() + " " + task.getTaskDescription() +
                 " id: " + task.getId() + " st/time " + task.getStartTime()
-                + " Dur " + task.getDuration().toString() + "end " + task.getFinishTime());
+                + " Dur " + task.getDuration().toString() + "end " + task.getEndTime());
         System.out.println(task2.getType() + " " + task2.getTaskName() + " " + task2.getTaskDescription() +
                 " id: " + task2.getId());
         System.out.println("");
@@ -78,16 +82,18 @@ public class Main {
         SubTask subtask3test = taskManager.findSubTaskById(subtask3Id);
         subtask3test = taskManager.findSubTaskById(subtask3Id);
         System.out.println("кол-во записей в истории " + taskManager.history().size());
+        System.out.println(taskManager.getPrioritizedTasks());
+        System.out.println(epic1.getStartTime() + " " + epic1.getDuration() + " " + epic1.getEndTime());
 
-        System.out.println("");
-        taskManager.printHistory();
-        System.out.println("");
-
-        taskManager.deleteSubTaskById(subtask1Id);
-        taskManager.getSubTaskAll();
-
-        System.out.println("");
-        System.out.println("Кол-во записей в истории " + taskManager.history().size());
+//        System.out.println("");
+//        taskManager.printHistory();
+//        System.out.println("");
+//
+//        taskManager.deleteSubTaskById(subtask1Id);
+//        taskManager.getSubTaskAll();
+//
+//        System.out.println("");
+//        System.out.println("Кол-во записей в истории " + taskManager.history().size());
         taskManager.printHistory();
     }
 }

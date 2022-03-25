@@ -7,25 +7,28 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import support.TaskGenerator;
 
 import java.io.IOException;
 import java.time.Duration;
+import java.time.LocalDateTime;
 
 public class FileBackedTaskManagerTest extends HistoryManagerTest {
     String filename = "TaskSavedBackup";
     TaskManager taskManager = new FileBackedTaskManager(filename);
+    TaskGenerator taskGenerator = new TaskGenerator();
 
-    Task task = new Task("Task1name", "Task1description", Duration.ofMinutes(2000));
-    Task task2 = new Task("Task2name", "Task2description", Duration.ofMinutes(2000));
-    Epic epic1 = new Epic("Epic1name", "Epic1description", Duration.ofMinutes(2000));
-    Epic epic2 = new Epic("Epic2name", "Epic2description", Duration.ofMinutes(2000));
-    SubTask subTask = new SubTask("SubTask1", "Subtask1description", Duration.ofMinutes(2000));
-    SubTask subTask2 = new SubTask("SubTask2", "Subtask2description", Duration.ofMinutes(2000));
-    SubTask subTask3 = new SubTask("SubTask3", "Subtask3description", Duration.ofMinutes(2000));
-    Task task3 = new Task("name", "description", Duration.ofMinutes(2000));
+    Task task = taskGenerator.generateTask24Hours(LocalDateTime.of(2022, 3, 1, 15, 30));
+    Task task2 = taskGenerator.generateTask24Hours(LocalDateTime.of(2022, 3, 3, 15, 30));
+    Epic epic1 = taskGenerator.generateEpic();
+    Epic epic2 = taskGenerator.generateEpic();
+    SubTask subTask = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 12, 15, 30));
+    SubTask subTask2 = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 15, 15, 30));
+    SubTask subTask3 = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 18, 15, 30));
+    Task task3 = taskGenerator.generateTask24Hours(LocalDateTime.of(2022, 3, 21, 15, 30));
 
     @BeforeEach
-    public void generateTasks () {
+    public void generateTasks() {
         //ТАСКИ
         taskManager.createTask(task);
         taskManager.createTask(task2);

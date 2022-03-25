@@ -32,35 +32,24 @@ public class Task implements Comparable<Task>{
     public Task() {
     }
 
-    public Task(Integer id, String taskName) {
-        this(id, TASK, taskName, NEW, "");
-    }
-
-    public Task(Integer id, String taskName, String taskDescription) {
+    public Task(Integer id, TaskType type, String taskName, Status status, String taskDescription,
+                LocalDateTime startTime, Duration duration) {
         this.taskName = taskName;
         this.taskDescription = taskDescription;
         this.id = id;
-        this.status = NEW;
-        this.type = TASK;
-        this.duration = Duration.ZERO;
+        this.status = status;
+        this.type = type;
+        this.startTime = startTime;
+        this.duration = duration;
     }
 
-    public Task(String taskName, String taskDescription, Duration duration) {
+    public Task(String taskName, String taskDescription, LocalDateTime startTime, Duration duration) {
         this.taskName = taskName;
         this.taskDescription = taskDescription;
         this.status = NEW;
         this.type = TASK;
         this.duration = duration;
-    }
-
-
-    public Task(Integer id, TaskType type, String taskName, Status status, String taskDescription) {
-        this.type = TASK;
-        this.taskName = taskName;
-        this.taskDescription = taskDescription;
-        this.id = id;
-        this.status = status;
-        this.duration = Duration.ZERO;
+        this.startTime = startTime;
     }
 
     public Task(Task task) {
@@ -72,12 +61,22 @@ public class Task implements Comparable<Task>{
         this.duration = task.duration;
     }
 
-    public Task(String taskName, String taskDescription, Integer id, Status status) {
+    public Task(Integer id, TaskType type, String taskName, Status status, String taskDescription) {
         this.taskName = taskName;
         this.taskDescription = taskDescription;
         this.id = id;
         this.status = status;
-        this.duration = Duration.ZERO;
+        this.type = type;
+    }
+
+    public Task(Integer id, String taskDescription) {
+        this.id = id;
+        this.taskDescription = taskDescription;
+    }
+
+    public Task(String taskName, String taskDescription) {
+        this.taskName = taskName;
+        this.taskDescription = taskDescription;
     }
 
     public String getTaskName() {
@@ -129,14 +128,13 @@ public class Task implements Comparable<Task>{
     }
 
     public void setStartTime(String startTime) {
-        if (startTime != null) {
-            this.startTime = LocalDateTime.parse(startTime);
-        } else {
-            this.startTime = LocalDateTime.now();
-        }
+        this.startTime = LocalDateTime.parse(startTime);
+    }
+    public void setStartTimeNow() {
+        this.startTime = LocalDateTime.now();
     }
 
-    public LocalDateTime getFinishTime() {
+    public LocalDateTime getEndTime() {
         if (getStartTime() == null) {
             return null;
         }

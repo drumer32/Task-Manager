@@ -19,7 +19,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     public void save() {
         try {
             StringBuilder taskSaved = new StringBuilder();
-            taskSaved.append("id,type,name,status,description,epic,startTime,duration");
+            taskSaved.append("id,type,name,status,description,startTime,duration,epic");
             taskSaved.append("\n");
 
             for (Task a : tasks.values()) {
@@ -80,7 +80,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
                 Task task = new Task(Integer.parseInt(arrTasks[0]), TaskType.valueOf(arrTasks[1]),
                         arrTasks[2], Status.valueOf(arrTasks[3]), arrTasks[4]);
                 String startTime = arrTasks[5];
-                Duration duration = Duration.parse(arrTasks[7]);
+                Duration duration = Duration.parse(arrTasks[6]);
                 task.setStartTime(startTime);
                 task.setDurationOfHours(duration);
                 tasks.put(Integer.parseInt(arrTasks[0]), task);
@@ -95,8 +95,18 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
             if (arrTasks[1].equals(TaskType.EPIC.toString())) {
                 Epic epic = new Epic(Integer.parseInt(arrTasks[0]), TaskType.valueOf(arrTasks[1]),
                         arrTasks[2], Status.valueOf(arrTasks[3]), arrTasks[4]);
-                String startTime = arrTasks[6];
-                Duration duration = Duration.parse(arrTasks[7]);
+                String startTime;
+                if (arrTasks[5].equals("null")) {
+                    startTime = null;
+                } else {
+                    startTime = arrTasks[5];
+                }
+                Duration duration;
+                if (arrTasks[6].equals("null")) {
+                    duration = null;
+                } else {
+                    duration = Duration.parse(arrTasks[6]);
+                }
                 epic.setStartTime(startTime);
                 epic.setDurationOfHours(duration);
                 epics.put(Integer.parseInt(arrTasks[0]), epic);
@@ -110,9 +120,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
             arrTasks = a.split(",");
             if (arrTasks[1].equals(TaskType.SUBTASK.toString())) {
                 SubTask subTask = new SubTask(Integer.parseInt(arrTasks[0]), TaskType.valueOf(arrTasks[1]),
-                        arrTasks[2], Status.valueOf(arrTasks[3]), arrTasks[4], Integer.parseInt(arrTasks[5]));
-                String startTime = arrTasks[6];
-                Duration duration = Duration.parse(arrTasks[7]);
+                        arrTasks[2], Status.valueOf(arrTasks[3]), arrTasks[4], Integer.parseInt(arrTasks[7]));
+                String startTime = arrTasks[5];
+                Duration duration = Duration.parse(arrTasks[6]);
                 subTask.setStartTime(startTime);
                 subTask.setDurationOfHours(duration);
                 subTasks.put(Integer.parseInt(arrTasks[0]), subTask);

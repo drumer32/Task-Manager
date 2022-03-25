@@ -1,10 +1,10 @@
-id,type,name,status,description,epic,startTime,duration
-1,TASK,Task1name,DONE,Task1description,2022-03-24T05:38:00.505985700,PT33H20M
-2,TASK,Task2name,NEW,Task2description,2022-03-24T05:38:00.591933200,PT33H20M
-3,EPIC,Epic1description,NEW,Epic1name,2022-03-24T05:38:00.593932500,PT33H20M
-4,EPIC,Epic2description,NEW,Epic2name,2022-03-24T05:38:00.595931100,PT33H20M
-5,SUBTASK,SubTask1,NEW,Subtask1description,2022-03-24T05:38:00.597929300,PT33H20M,3
-6,SUBTASK,SubTask2,NEW,Subtask2description,2022-03-24T05:38:00.608923500,PT33H20M,3
-7,SUBTASK,SubTask3,NEW,Subtask3description,2022-03-24T05:38:00.610920700,PT33H20M,3
+id,type,name,status,description,startTime,duration,epic
+1,TASK,TaskName,NEW,TaskDescription,2022-03-01T15:30,PT24H
+2,TASK,TaskName,NEW,TaskDescription,2022-03-03T15:30,PT24H
+3,EPIC,EpicDescription,NEW,EpicName,2022-03-12T15:30,PT168H
+4,EPIC,EpicDescription,NEW,EpicName,2022-03-25T04:14:23.519684400,PT0S
+5,SUBTASK,SubtaskName,NEW,SubtaskDescription,2022-03-12T15:30,PT24H,3
+6,SUBTASK,SubtaskName,NEW,SubtaskDescription,2022-03-15T15:30,PT24H,3
+7,SUBTASK,SubtaskName,NEW,SubtaskDescription,2022-03-18T15:30,PT24H,3
 
 7,6,5,2,1,3,4,

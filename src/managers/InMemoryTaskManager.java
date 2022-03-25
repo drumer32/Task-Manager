@@ -4,12 +4,12 @@ import model.Epic;
 import support.IdGenerator;
 import model.SubTask;
 import model.Task;
-import support.Status;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.*;
+import java.util.function.Predicate;
 
 import static support.Status.*;
 import static support.TaskType.*;
@@ -19,6 +19,7 @@ public class InMemoryTaskManager implements TaskManager {
     protected static HashMap<Integer, Task> tasks = new HashMap <>();
     protected static HashMap<Integer, Epic> epics = new HashMap<>();
     protected static HashMap<Integer, SubTask> subTasks = new HashMap<>();
+    protected static TreeSet<Task> sortedTasks = new TreeSet<>();
 
     HistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
     IdGenerator idGenerator = new IdGenerator();
@@ -71,7 +72,39 @@ public class InMemoryTaskManager implements TaskManager {
         return epic;
     }
 
-    //	СОЗДАНИЕ новой задачи, эпика и подзадачи
+    @Override
+    public TreeSet<Task> getPrioritizedTasks() {
+        sortedTasks.addAll(tasks.values());
+        sortedTasks.addAll(epics.values());
+        sortedTasks.addAll(subTasks.values());
+        return sortedTasks;
+    }
+
+    private final Predicate<Task> noIntersection = newTask -> {
+
+        LocalDateTime newTaskStart = newTask.getStartTime();
+        LocalDateTime newTaskFinish = newTask.getEndTime();
+
+        for (Task task : sortedTasks) {
+
+            LocalDateTime taskStart = task.getStartTime();
+            LocalDateTime taskFinish = task.getEndTime();
+
+            if (newTaskStart.isBefore(taskStart) && newTaskFinish.isAfter(taskStart)) {
+                return false;
+            }
+
+            if (newTaskStart.isBefore(taskFinish) && newTaskFinish.isAfter(taskFinish)) {
+                return false;
+            }
+
+            if ((newTaskStart.isBefore(taskStart) && newTaskFinish.isBefore(taskStart)) &&
+                    (newTaskStart.isBefore(taskFinish) && newTaskFinish.isBefore(taskFinish))) {
+                break;
+            }
+        }
+        return true;
+    };
 
     @Override
     public Task createTask(Task task) {
@@ -79,12 +112,16 @@ public class InMemoryTaskManager implements TaskManager {
         task.setId(id);
         task.setStatus(NEW);
         task.setType(TASK);
-        task.setStartTime(String.valueOf(LocalDateTime.now()));
         if (tasks.containsKey(task.getId())) {
             System.out.println("Такая задача существует id = " + task.getId());
             return null;
         }
-        tasks.put(id, task);
+        if (noIntersection.test(task)) {
+            tasks.put(id, task);
+            sortedTasks.add(task);
+        } else {
+            System.out.println("Время уже занято");
+        }
         return task;
     }
 
@@ -94,12 +131,14 @@ public class InMemoryTaskManager implements TaskManager {
         epic.setId(id);
         epic.setStatus(NEW);
         epic.setType(EPIC);
+        epic.setDurationOfHours(Duration.ZERO);
         epic.setStartTime(String.valueOf(LocalDateTime.now()));
         if (epics.containsKey(epic.getId())) {
             System.out.println("Такая задача существует id = " + epic.getId());
             return null;
         }
         epics.put(id, epic);
+        sortedTasks.add(epic);
         return epic;
     }
 
@@ -114,10 +153,14 @@ public class InMemoryTaskManager implements TaskManager {
         subTask.setStatus(NEW);
         subTask.setType(SUBTASK);
         subTask.setEpicId(epicId);
-        subTask.setStartTime(String.valueOf(LocalDateTime.now()));
-        subTasks.put(id, subTask);
-        final Epic epic = epics.get(epicId);
-        epic.addSubTask(subTask);
+        if (noIntersection.test(subTask)) {
+            subTasks.put(id, subTask);
+            sortedTasks.add(subTask);
+            final Epic epic = epics.get(epicId);
+            epic.addSubTask(subTask);
+        } else {
+            System.out.println("Время уже занято");
+        }
         return subTask;
     }
 
