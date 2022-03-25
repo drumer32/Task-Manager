@@ -7,10 +7,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import support.Status;
 import support.TaskGenerator;
-
-import java.time.Duration;
 import java.time.LocalDateTime;
 
 import static support.Status.DONE;
@@ -93,7 +90,6 @@ public class InMemoryTaskManagerTest {
         Assertions.assertEquals(3, taskManager.getSubTaskByEpic(epic1).size());
     }
 
-
     @Test
     public void getSubTaskByEpicIdTest() {
         Assertions.assertEquals(3, taskManager.getSubTaskByEpicId(epic1.getId()).size());
@@ -104,12 +100,10 @@ public class InMemoryTaskManagerTest {
         Assertions.assertEquals(1, taskManager.findById(1).getId());
     }
 
-
     @Test
     public void findSubTaskByIdTest() {
         Assertions.assertEquals(6, taskManager.findSubTaskById(6).getId());
     }
-
 
     @Test
     public void findEpicByIdTest() {
@@ -118,23 +112,23 @@ public class InMemoryTaskManagerTest {
 
     @Test
     public void updateTaskTest() {
-        Task taskUpdated = new Task(task.getId(),"UPDATED NAME");
+        Task taskUpdated = new Task(task.getId(),"TASK UPDATED");
         taskManager.updateTask(taskUpdated);
-        Assertions.assertEquals("UPDATED NAME", task.getTaskName());
+        Assertions.assertEquals("TASK UPDATED", task.getTaskDescription());
     }
 
     @Test
     public void updateEpicTest() {
         Epic epicUpdated = new Epic(epic1.getId(),"EPIC UPDATED");
         taskManager.updateEpic(epicUpdated);
-        Assertions.assertEquals("EPIC UPDATED", epic1.getTaskName());
+        Assertions.assertEquals("EPIC UPDATED", epic1.getTaskDescription());
     }
 
     @Test
     public void updateSubTaskTest() {
         SubTask subTaskUpdated = new SubTask(subTask.getId(), "SUBTASK UPDATED");
         taskManager.updateSubTask(subTaskUpdated);
-        Assertions.assertEquals("SUBTASK UPDATED", subTask.getTaskName());
+        Assertions.assertEquals("SUBTASK UPDATED", subTask.getTaskDescription());
     }
 
     @Test

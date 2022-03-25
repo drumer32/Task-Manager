@@ -10,22 +10,21 @@ import org.junit.jupiter.api.Test;
 import support.TaskGenerator;
 
 import java.io.IOException;
-import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class FileBackedTaskManagerTest extends HistoryManagerTest {
+public class FileBackedTaskManagerTest {
     String filename = "TaskSavedBackup";
     TaskManager taskManager = new FileBackedTaskManager(filename);
     TaskGenerator taskGenerator = new TaskGenerator();
 
-    Task task = taskGenerator.generateTask24Hours(LocalDateTime.of(2022, 3, 1, 15, 30));
+    Task task = taskGenerator.generateTask24Hours(LocalDateTime.of(2022, 4, 1, 15, 30));
     Task task2 = taskGenerator.generateTask24Hours(LocalDateTime.of(2022, 3, 3, 15, 30));
     Epic epic1 = taskGenerator.generateEpic();
     Epic epic2 = taskGenerator.generateEpic();
-    SubTask subTask = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 12, 15, 30));
-    SubTask subTask2 = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 15, 15, 30));
-    SubTask subTask3 = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 18, 15, 30));
-    Task task3 = taskGenerator.generateTask24Hours(LocalDateTime.of(2022, 3, 21, 15, 30));
+    SubTask subTask = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2020, 3, 12, 15, 30));
+    SubTask subTask2 = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2021, 3, 15, 15, 30));
+    SubTask subTask3 = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 1, 18, 15, 30));
+    Task task3 = taskGenerator.generateTask24Hours(LocalDateTime.of(2022, 5, 21, 15, 30));
 
     @BeforeEach
     public void generateTasks() {

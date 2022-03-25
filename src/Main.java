@@ -4,15 +4,9 @@ import managers.TaskManager;
 import model.Epic;
 import model.SubTask;
 import model.Task;
-import org.junit.jupiter.api.BeforeEach;
 import support.TaskGenerator;
 
-import java.io.IOException;
-import java.time.Duration;
 import java.time.LocalDateTime;
-
-import static support.Status.DONE;
-
 
 public class Main {
     private static final Integer IN_MEMORY = 1;
@@ -49,8 +43,7 @@ public class Main {
 
         //НАЧАЛО ВЫВОДА
         System.out.println(task.getType() + " " + task.getTaskName() + " " + task.getTaskDescription() +
-                " id: " + task.getId() + " st/time " + task.getStartTime()
-                + " Dur " + task.getDuration().toString() + "end " + task.getEndTime());
+                " id: " + task.getId());
         System.out.println(task2.getType() + " " + task2.getTaskName() + " " + task2.getTaskDescription() +
                 " id: " + task2.getId());
         System.out.println("");

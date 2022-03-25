@@ -3,6 +3,7 @@ import managers.TaskManager;
 import model.Epic;
 import model.SubTask;
 import model.Task;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,11 +35,15 @@ public class EpicTest {
 
     TaskManager taskManager = new InMemoryTaskManager();
     TaskGenerator taskGenerator = new TaskGenerator();
-    private final Epic epic = new Epic(1, EPIC, "name", NEW, "description");
+    private final Epic epic = taskGenerator.generateEpic();
 
     @BeforeEach
     public void createEpicForTest () {
         taskManager.createEpic(epic);
+    }
+    @AfterEach
+    public void clear() {
+        taskManager.clearAll();
     }
 
     @Test
@@ -48,8 +53,8 @@ public class EpicTest {
 
     @Test
     public void allNewSubtasks () {
-        SubTask subTaskNew = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 24, 15, 30));
-        SubTask subTaskNew2 = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 31, 15, 30));
+        SubTask subTaskNew = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2020, 3, 24, 15, 30));
+        SubTask subTaskNew2 = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2021, 3, 31, 15, 30));
         SubTask subTaskInProgress = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 20, 15, 30));
         taskManager.createSubTask(subTaskNew, epic.getId());
         taskManager.createSubTask(subTaskNew2, epic.getId());
@@ -85,8 +90,8 @@ public class EpicTest {
 
     @Test
     public void allDoneSubtasks () {
-        SubTask subTaskNew = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 24, 15, 30));
-        SubTask subTaskDone = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 31, 15, 30));
+        SubTask subTaskNew = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2020, 3, 24, 15, 30));
+        SubTask subTaskDone = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2021, 3, 31, 15, 30));
         SubTask subTaskDone2 = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 20, 15, 30));
         taskManager.createSubTask(subTaskNew, epic.getId());
         taskManager.createSubTask(subTaskDone, epic.getId());
@@ -104,8 +109,8 @@ public class EpicTest {
 
     @Test
     public void allNewAndDoneSubtasks () {
-        SubTask subTaskNew = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 24, 15, 30));
-        SubTask subTaskDone = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 31, 15, 30));
+        SubTask subTaskNew = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2020, 3, 24, 15, 30));
+        SubTask subTaskDone = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2021, 3, 31, 15, 30));
         SubTask subTaskDone2 = taskGenerator.generateSubtask24Hours(LocalDateTime.of(2022, 3, 20, 15, 30));
         taskManager.createSubTask(subTaskNew, epic.getId());
         taskManager.createSubTask(subTaskDone, epic.getId());

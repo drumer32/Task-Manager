@@ -193,25 +193,52 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         return epic;
     }
 
+//    @Override
+//    public Task createTask(Task task) {
+//        final Task taskNew = super.createTask(task);
+//        save();
+//        return taskNew;
+//    }
+//
+//    @Override
+//    public Epic createEpic(Epic epic) {
+//        super.createEpic(epic);
+//        save();
+//        return epicNew;
+//    }
+//
+//    @Override
+//    public SubTask createSubTask(SubTask subTask, Integer epicId) {
+//        final SubTask subTaskNew = super.createSubTask(subTask, epicId);
+//        save();
+//        return subTaskNew;
+//    }
+
+
+    @Override
+    public TreeSet<Task> getPrioritizedTasks() {
+        return super.getPrioritizedTasks();
+    }
+
     @Override
     public Task createTask(Task task) {
-        final Task taskNew = super.createTask(task);
+        super.createTask(task);
         save();
-        return taskNew;
+        return task;
     }
 
     @Override
     public Epic createEpic(Epic epic) {
-        final Epic epicNew = super.createEpic(epic);
+        super.createEpic(epic);
         save();
-        return epicNew;
+        return epic;
     }
 
     @Override
     public SubTask createSubTask(SubTask subTask, Integer epicId) {
-        final SubTask subTaskNew = super.createSubTask(subTask, epicId);
+        super.createSubTask(subTask, epicId);
         save();
-        return subTaskNew;
+        return subTask;
     }
 
     @Override
