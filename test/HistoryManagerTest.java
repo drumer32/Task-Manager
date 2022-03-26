@@ -1,6 +1,9 @@
 import managers.*;
+import model.Epic;
+import model.SubTask;
 import model.Task;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import support.TaskGenerator;
@@ -13,11 +16,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class HistoryManagerTest {
 
     HistoryManager historyManager = new InMemoryHistoryManager();
-    TaskGenerator taskGenerator = new TaskGenerator();
     TaskManager taskManager = new InMemoryTaskManager();
-    Task task = taskGenerator.generateTask24Hours(LocalDateTime.of(2020, 3, 1, 15, 30));
-    Task task2 = taskGenerator.generateTask24Hours(LocalDateTime.of(2021, 3, 3, 15, 30));
-    Task task3 = taskGenerator.generateTask24Hours(LocalDateTime.of(2022, 3, 3, 18, 30));
+
+
+    private static Task task;
+    private static Task task2;
+    private static Task task3;
+
+    @BeforeAll
+    static void generateTasks() {
+        TaskGenerator taskGenerator = new TaskGenerator();
+        task = taskGenerator.generateTask24Hours(LocalDateTime.of(2022, 1, 1, 15, 30));
+        task2 = taskGenerator.generateTask24Hours(LocalDateTime.of(2022, 2, 3, 15, 30));
+        task3 = taskGenerator.generateTask24Hours(LocalDateTime.of(2022, 7, 3, 15, 30));
+    }
 
     @BeforeEach
     public void createTasks() {
