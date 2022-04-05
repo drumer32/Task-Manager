@@ -1,5 +1,7 @@
-package managers;
+package managers.inmemory;
 
+import managers.HistoryManager;
+import managers.TaskManager;
 import model.Epic;
 import support.IdGenerator;
 import model.SubTask;
@@ -19,7 +21,7 @@ public class InMemoryTaskManager implements TaskManager {
     protected HashMap<Integer, Task> tasks = new HashMap <>();
     protected HashMap<Integer, Epic> epics = new HashMap<>();
     protected HashMap<Integer, SubTask> subTasks = new HashMap<>();
-    protected TreeSet<Task> sortedTasks = new TreeSet<>();
+    protected TreeMap<Integer, Task> sortedTasks = new TreeMap<>();
 
     HistoryManager inMemoryHistoryManager = new InMemoryHistoryManager();
     IdGenerator idGenerator = new IdGenerator();
@@ -50,6 +52,15 @@ public class InMemoryTaskManager implements TaskManager {
         return epics.get(epicId).getSubTasksIds();
     }
 
+    @Override
+    public Task getById(Integer id) {
+        Task task = null;
+        if (sortedTasks.containsKey(id)) {
+            task = sortedTasks.get(id);
+        }
+        return task;
+    }
+
     //	Получение задачи любого типа ПО ИДЕНТИФИКАТОРУ.
     @Override
     public Task findById(Integer id) {
@@ -73,10 +84,10 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public TreeSet<Task> getPrioritizedTasks() {
-        sortedTasks.addAll(tasks.values());
-        sortedTasks.addAll(epics.values());
-        sortedTasks.addAll(subTasks.values());
+    public TreeMap<Integer, Task> getPrioritizedTasks() {
+        sortedTasks.putAll(tasks);
+        sortedTasks.putAll(epics);
+        sortedTasks.putAll(subTasks);
         return sortedTasks;
     }
 
@@ -85,7 +96,7 @@ public class InMemoryTaskManager implements TaskManager {
         LocalDateTime newTaskStart = newTask.getStartTime();
         LocalDateTime newTaskFinish = newTask.getEndTime();
 
-        for (Task task : sortedTasks) {
+        for (Task task : sortedTasks.values()) {
 
             LocalDateTime taskStart = task.getStartTime();
             LocalDateTime taskFinish = task.getEndTime();
@@ -118,7 +129,7 @@ public class InMemoryTaskManager implements TaskManager {
         }
         if (noIntersection.test(task)) {
             tasks.put(id, task);
-            sortedTasks.add(task);
+            sortedTasks.put(id, task);
         } else {
             System.out.println("Время уже занято");
         }
@@ -138,7 +149,7 @@ public class InMemoryTaskManager implements TaskManager {
             return null;
         }
         epics.put(id, epic);
-        sortedTasks.add(epic);
+        sortedTasks.put(id, epic);
         return epic;
     }
 
@@ -155,7 +166,7 @@ public class InMemoryTaskManager implements TaskManager {
         subTask.setEpicId(epicId);
         if (noIntersection.test(subTask)) {
             subTasks.put(id, subTask);
-            sortedTasks.add(subTask);
+            sortedTasks.put(id, subTask);
             final Epic epic = epics.get(epicId);
             epic.addSubTask(subTask);
         } else {
@@ -231,10 +242,12 @@ public class InMemoryTaskManager implements TaskManager {
         if (epic == null) {
             System.out.println("Not found");
         }
-        for (Integer key : epic.getSubTasksIds()) {
-            subTasks.remove(key);
-            inMemoryHistoryManager.remove(key);
-            System.out.println("Подзадача id " + key + " удалена");
+        if (epic.getSubTasksIds() != null) {
+            for (Integer key : epic.getSubTasksIds()) {
+                subTasks.remove(key);
+                inMemoryHistoryManager.remove(key);
+                System.out.println("Подзадача id " + key + " удалена");
+            }
         }
         epics.remove(id);
         epic.deleteSubTasks();

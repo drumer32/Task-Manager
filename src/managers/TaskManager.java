@@ -6,7 +6,7 @@ import model.Task;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.TreeSet;
+import java.util.TreeMap;
 
 public interface TaskManager {
 
@@ -20,6 +20,8 @@ public interface TaskManager {
 
     List<Integer> getSubTaskByEpicId(Integer epicId);
 
+    Task getById(Integer id);
+
     Task findById(Integer id);
 
     SubTask findSubTaskById(Integer id);
@@ -27,7 +29,7 @@ public interface TaskManager {
     Epic findEpicById(Integer id);
 
     //	СОЗДАНИЕ новой задачи, эпика и подзадачи
-    TreeSet<Task> getPrioritizedTasks();
+    TreeMap<Integer, Task> getPrioritizedTasks();
 
     Task createTask(Task task);
 

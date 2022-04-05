@@ -1,6 +1,8 @@
-package managers;
+package managers.filebacked;
 
 import exceptions.ManagerSaveException;
+import managers.TaskManager;
+import managers.inmemory.InMemoryTaskManager;
 import model.*;
 import support.Status;
 import support.TaskType;
@@ -65,6 +67,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         } catch (IOException e) {
             throw new IOException("Ошибка чтения файла");
         }
+        clearAll();
         taskFromString(values);
         epicFromString(values);
         subtaskFromString(values);
@@ -173,6 +176,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     }
 
     @Override
+    public Task getById(Integer id) {
+        return super.getById(id);
+    }
+
+    @Override
     public Task findById(Integer id) {
         final Task task = super.findById(id);
         save();
@@ -193,30 +201,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         return epic;
     }
 
-//    @Override
-//    public Task createTask(Task task) {
-//        final Task taskNew = super.createTask(task);
-//        save();
-//        return taskNew;
-//    }
-//
-//    @Override
-//    public Epic createEpic(Epic epic) {
-//        super.createEpic(epic);
-//        save();
-//        return epicNew;
-//    }
-//
-//    @Override
-//    public SubTask createSubTask(SubTask subTask, Integer epicId) {
-//        final SubTask subTaskNew = super.createSubTask(subTask, epicId);
-//        save();
-//        return subTaskNew;
-//    }
-
-
     @Override
-    public TreeSet<Task> getPrioritizedTasks() {
+    public TreeMap<Integer, Task> getPrioritizedTasks() {
         return super.getPrioritizedTasks();
     }
 

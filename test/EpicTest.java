@@ -1,4 +1,4 @@
-import managers.InMemoryTaskManager;
+import managers.inmemory.InMemoryTaskManager;
 import managers.TaskManager;
 import model.Epic;
 import model.SubTask;
@@ -7,29 +7,13 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import support.IdGenerator;
-import support.Status;
 import support.TaskGenerator;
 
-import java.text.CollationElementIterator;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 
 import static support.Status.*;
-import static support.TaskType.EPIC;
-import static support.TaskType.SUBTASK;
-
-/**
- * Пустой список подзадач.
- * Все подзадачи со статусом NEW.
- * Все подзадачи со статусом DONE.
- * Подзадачи со статусами NEW и DONE.
- * Подзадачи со статусом IN_PROGRESS.
- */
 
 public class EpicTest {
 

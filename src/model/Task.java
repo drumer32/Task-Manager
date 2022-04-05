@@ -1,21 +1,9 @@
 package model;
-import managers.FileBackedTaskManager;
-import support.IdGenerator;
 import support.Status;
 import support.TaskType;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 import static support.Status.NEW;
 import static support.TaskType.TASK;
@@ -26,7 +14,7 @@ public class Task implements Comparable<Task>{
     protected Integer id;
     protected Status status;
     protected TaskType type;
-    private Duration duration;
+    public Duration duration;
     private LocalDateTime startTime;
 
     public Task() {

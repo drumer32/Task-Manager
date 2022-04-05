@@ -1,0 +1,7 @@
+{"id":1,
+ "type":"TASK",
+ "name":"TaskName",
+ "status":"NEW",
+ "description":"TaskDescription",
+ "startTime":"2020-03-01T15:30",
+ "duration":"PT24H"}
