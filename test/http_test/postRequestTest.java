@@ -10,7 +10,6 @@ import server.HttpTaskServer;
 import server.converter.Converter;
 import support.TaskGenerator;
 
-import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -43,11 +42,7 @@ public class postRequestTest {
 
         String json = gson.toJson(task);
         HttpRequest request = postRequest(json);
-        try {
-            client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-        }
+        client.send(request, HttpResponse.BodyHandlers.ofString());
         Assertions.assertEquals(task, taskManager.findById(1));
         server.close();
     }

@@ -2,6 +2,7 @@ package managers.http;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParser;
+import exceptions.ManagerSaveException;
 import managers.filebacked.FileBackedTaskManager;
 
 import java.io.BufferedReader;
@@ -38,7 +39,7 @@ public class HttpTaskManager extends FileBackedTaskManager {
                 values.add(line);
             }
             br.close();
-        } catch (IOException e) {
+        } catch (ManagerSaveException e) {
             throw new IOException("Ошибка чтения файла");
         }
         json = gson.toJson(values);

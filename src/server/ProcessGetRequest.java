@@ -13,10 +13,12 @@ import java.util.TreeMap;
 public class ProcessGetRequest {
 
     static String response;
+    static GsonBuilder gsonBuilder = new GsonBuilder();
+    static Gson gson;
+
 
     public static String processGetRequest(TaskManager manager, String query, String path) {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        Gson gson = Converter
+        gson = Converter
                 .registerAll(gsonBuilder)
                 .setPrettyPrinting()
                 .create();

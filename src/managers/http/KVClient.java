@@ -1,5 +1,7 @@
 package managers.http;
 
+import exceptions.ManagerSaveException;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -27,8 +29,9 @@ public class KVClient {
             if (response.statusCode() == 200) {
                 System.out.println("Saved successfully");
             }
-        } catch (IOException | InterruptedException e) {
+        } catch (ManagerSaveException | IOException | InterruptedException e) {
             e.printStackTrace();
+            //своё исключение дает добавить, но IOException все равно требует
         }
     }
 
@@ -45,7 +48,7 @@ public class KVClient {
             if (response.statusCode() == 200) {
                 json = response.body();
             }
-        } catch (IOException | InterruptedException e) {
+        } catch (ManagerSaveException | IOException | InterruptedException e) {
             e.printStackTrace();
         }
         return json;
