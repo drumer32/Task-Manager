@@ -29,9 +29,9 @@ public class KVClient {
             if (response.statusCode() == 200) {
                 System.out.println("Saved successfully");
             }
-        } catch (ManagerSaveException | IOException | InterruptedException e) {
-            e.printStackTrace();
-            //своё исключение дает добавить, но IOException все равно требует
+        } catch (IOException | InterruptedException e) {
+            throw new ManagerSaveException(e.getMessage());
+            //теперь вроде понял, спасибо)
         }
     }
 
@@ -48,8 +48,8 @@ public class KVClient {
             if (response.statusCode() == 200) {
                 json = response.body();
             }
-        } catch (ManagerSaveException | IOException | InterruptedException e) {
-            e.printStackTrace();
+        } catch (IOException | InterruptedException e) {
+            throw new ManagerSaveException(e.getMessage());
         }
         return json;
     }

@@ -39,8 +39,8 @@ public class HttpTaskManager extends FileBackedTaskManager {
                 values.add(line);
             }
             br.close();
-        } catch (ManagerSaveException e) {
-            throw new IOException("Ошибка чтения файла");
+        } catch (IOException e) {
+            throw new ManagerSaveException("Ошибка чтения файла");
         }
         json = gson.toJson(values);
         client.saveManager(json, key, apiKey);
