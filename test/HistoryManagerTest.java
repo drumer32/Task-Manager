@@ -1,6 +1,6 @@
 import managers.*;
-import managers.inmemory.InMemoryHistoryManager;
-import managers.inmemory.InMemoryTaskManager;
+import managers.in_memory.InMemoryHistoryManager;
+import managers.in_memory.InMemoryTaskManager;
 import model.Task;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;

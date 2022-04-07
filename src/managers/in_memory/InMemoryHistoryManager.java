@@ -1,11 +1,7 @@
-package managers.inmemory;
+package managers.in_memory;
 import managers.HistoryManager;
 import model.Task;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.*;
 
 public class InMemoryHistoryManager implements HistoryManager {

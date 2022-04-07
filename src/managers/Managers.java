@@ -2,7 +2,7 @@ package managers;
 
 import managers.filebacked.FileBackedTaskManager;
 import managers.http.HttpTaskManager;
-import managers.inmemory.InMemoryTaskManager;
+import managers.in_memory.InMemoryTaskManager;
 
 import java.net.URI;
 
