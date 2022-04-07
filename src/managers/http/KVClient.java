@@ -15,8 +15,8 @@ public class KVClient {
         this.url = path;
     }
 
-    public void saveManager(String key, String json) {
-        URI requestURI = URI.create(this.url + "/save/" + key + "?API_KEY=");
+    public void saveManager(String json, int key, String apiKey) {
+        URI requestURI = URI.create(this.url + "/save/" + key + "?API_KEY=" + apiKey);
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(requestURI)
                 .POST(HttpRequest.BodyPublishers.ofString(json))
@@ -25,16 +25,16 @@ public class KVClient {
             HttpResponse<String> response = httpClient.send(request,
                     HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() == 200) {
-                System.out.println("TaskManager Saved successfully");
+                System.out.println("Saved successfully");
             }
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    public String loadManager(String key) {
+    public String loadManager(int key, String apiKey) {
         String json = null;
-        URI requestURI = URI.create(this.url + "/load/" + key + "?API_KEY=");
+        URI requestURI = URI.create(this.url + "/load/" + key + "?API_KEY=" + apiKey);
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(requestURI)
                 .GET()

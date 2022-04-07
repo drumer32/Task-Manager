@@ -61,6 +61,16 @@ public class InMemoryTaskManager implements TaskManager {
         return task;
     }
 
+    @Override
+    public void deleteById(Integer id) {
+        if (tasks.containsKey(id)) {
+            tasks.remove(id);
+        } else if (epics.containsKey(id)) {
+            epics.remove(id);
+        } else subTasks.remove(id);
+        sortedTasks.remove(id);
+    }
+
     //	Получение задачи любого типа ПО ИДЕНТИФИКАТОРУ.
     @Override
     public Task findById(Integer id) {
@@ -260,6 +270,7 @@ public class InMemoryTaskManager implements TaskManager {
         tasks.clear();
         subTasks.clear();
         epics.clear();
+        sortedTasks.clear();
     }
 
     //Печать истории
@@ -281,6 +292,18 @@ public class InMemoryTaskManager implements TaskManager {
     public void loadFromFile(String taskSavedBackup) throws IOException {
         System.out.println("Функция недоступна для текущего менеджера. " +
                 "Запустите FileBackedTaskManager для сохранения истории.");
+    }
+
+    @Override
+    public void saveManager(int key, String apiKey) throws IOException {
+        System.out.println("Функция недоступна для текущего менеджера. " +
+                "Запустите HttpTaskManager для сохранения истории.");
+    }
+
+    @Override
+    public void loadManager(int key, String apiKey) {
+        System.out.println("Функция недоступна для текущего менеджера. " +
+                "Запустите HttpTaskManager для сохранения истории.");
     }
 
     @Override

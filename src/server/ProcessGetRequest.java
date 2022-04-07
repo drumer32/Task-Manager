@@ -22,6 +22,12 @@ public class ProcessGetRequest {
                 .create();
 
         switch (path) {
+            case "/tasks/load/" -> {
+                ///load/<ключ>?API_KEY=.
+                int key = query.charAt(0);
+                String apiKey = String.valueOf(query.charAt(query.length()-1));
+                manager.loadManager(key, apiKey);
+            }
             case "/tasks" -> {
                 TreeMap<Integer, Task> set = manager.getPrioritizedTasks();
                 response = gson.toJson(set);
@@ -33,8 +39,12 @@ public class ProcessGetRequest {
             case "/tasks/task" -> {
                 List<Task> tasks = manager.getAllTasks();
                 response = gson.toJson(tasks);
+            }
+            case "/tasks/task/" -> {
+                List<Task> tasks = manager.getAllTasks();
+                response = gson.toJson(tasks);
                 if (query != null) {
-                    int id = Integer.parseInt(query.substring(3));
+                    int id = Integer.parseInt(String.valueOf(query.charAt(query.length()-1)));
                     Task task = manager.getById(id);
                     response = gson.toJson(task);
                 } else {

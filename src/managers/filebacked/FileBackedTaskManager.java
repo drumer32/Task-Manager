@@ -12,7 +12,7 @@ import java.time.Duration;
 import java.util.*;
 
 public class FileBackedTaskManager extends InMemoryTaskManager implements TaskManager {
-    private final String filename;
+    protected final String filename;
 
     public FileBackedTaskManager(String filename) {
         this.filename = filename;
@@ -54,6 +54,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         }
     }
 
+    public String getFilename() {
+        return filename;
+    }
+
     public void loadFromFile(String filename) throws IOException {
         FileReader reader = new FileReader(filename);
         BufferedReader br = new BufferedReader(reader);
@@ -72,6 +76,16 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         epicFromString(values);
         subtaskFromString(values);
         historyFromString(values);
+    }
+
+    @Override
+    public void saveManager(int key, String apiKey) throws IOException {
+        System.out.println("not for this manager");
+    }
+
+    @Override
+    public void loadManager(int key, String apiKey) {
+        System.out.println("not for this manager");
     }
 
     public void taskFromString(ArrayList<String> values) {
@@ -178,6 +192,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     @Override
     public Task getById(Integer id) {
         return super.getById(id);
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        super.deleteById(id);
     }
 
     @Override

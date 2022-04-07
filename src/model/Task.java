@@ -1,10 +1,12 @@
 package model;
+
 import support.Status;
 import support.TaskType;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Objects;
+
 import static support.Status.NEW;
 import static support.TaskType.TASK;
 
@@ -22,30 +24,30 @@ public class Task implements Comparable<Task>{
 
     public Task(Integer id, TaskType type, String taskName, Status status, String taskDescription,
                 LocalDateTime startTime, Duration duration) {
-        this.taskName = taskName;
-        this.taskDescription = taskDescription;
         this.id = id;
-        this.status = status;
         this.type = type;
+        this.taskName = taskName;
+        this.status = status;
+        this.taskDescription = taskDescription;
         this.startTime = startTime;
         this.duration = duration;
     }
 
     public Task(String taskName, String taskDescription, LocalDateTime startTime, Duration duration) {
+        this.type = TASK;
+        this.status = NEW;
         this.taskName = taskName;
         this.taskDescription = taskDescription;
-        this.status = NEW;
-        this.type = TASK;
         this.duration = duration;
         this.startTime = startTime;
     }
 
     public Task(Task task) {
-        this.taskName = task.taskName;
-        this.taskDescription = task.taskDescription;
         this.id = task.id;
         this.status = task.status;
+        this.taskName = task.taskName;
         this.type = task.type;
+        this.taskDescription = task.taskDescription;
         this.duration = task.duration;
     }
 

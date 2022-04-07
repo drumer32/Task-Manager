@@ -6,9 +6,6 @@ import managers.filebacked.FileBackedTaskManager;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 
 public class HttpTaskServer {
 
@@ -28,39 +25,16 @@ public class HttpTaskServer {
         httpServer.createContext("/tasks", new TaskHandler());
         httpServer.start();
         kvServer.start();
-        System.out.println("Рабочий сервер открыт на порту " + PORT);
-    }
-
-    public String managerToJson(HttpClient httpClient) {
-        URI requestURI = URI.create("http://localhost:" + PORT + "/tasks");
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(requestURI)
-                .GET()
-                .build();
-        try {
-            HttpResponse<String> response = httpClient.send(request,
-                    HttpResponse.BodyHandlers.ofString());
-            if (response.statusCode() == 200) {
-                return response.body();
-            } else {
-                return null;
-            }
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-    public void managerFromJson(String json) throws IOException {
-        String s = null;
-        manager.loadFromFile(s);
+        System.out.println("Cервер открыт на порту " + PORT);
     }
 
     public URI getKVServerURI() {
         return URI.create(kvServer.getAddress());
     }
+
     public void close() {
         httpServer.stop(0);
+        kvServer.stop();
     }
 
     protected static FileBackedTaskManager getManager() {

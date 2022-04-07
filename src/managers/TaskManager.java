@@ -22,6 +22,8 @@ public interface TaskManager {
 
     Task getById(Integer id);
 
+    void deleteById(Integer id);
+
     Task findById(Integer id);
 
     SubTask findSubTaskById(Integer id);
@@ -56,4 +58,8 @@ public interface TaskManager {
     void printHistory();
 
     void loadFromFile(String taskSavedBackup) throws IOException;
+
+    void saveManager(int key, String apiKey) throws IOException;
+
+    void loadManager(int key, String apiKey);
 }
