@@ -1,5 +1,4 @@
 # Task Manager
-Task manager
 
 Программа TaskManager. 
 Имеет три типа задач: Task, Subtask и Epic.
